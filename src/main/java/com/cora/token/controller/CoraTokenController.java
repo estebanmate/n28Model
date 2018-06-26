@@ -5,6 +5,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +33,7 @@ public class CoraTokenController {
      * @return
      */
     @RequestMapping(value = "get_token", method = POST)
-    public ResponseEntity<CoraToken> getToken(UserCredentials credentials) {
+    public ResponseEntity<CoraToken> getToken(@RequestBody UserCredentials credentials) {
 
         sendChannelService.validateSendChannel(credentials.getEmail(), credentials.getSmsNumber());
         String token = authenticationTokenService.getToken(credentials.getUsername(), credentials.getPlattform());
@@ -54,7 +55,7 @@ public class CoraTokenController {
      * @return
      */
     @RequestMapping(value = "validate_token", method = POST)
-    public ResponseEntity<CoraTokenDetails> validateToken(CoraToken authenticationToken) {
+    public ResponseEntity<CoraTokenDetails> validateToken(@RequestBody CoraToken authenticationToken) {
 
         CoraTokenDetails authenticationTokenDetails = authenticationTokenService.tokenValidation(authenticationToken.getToken());
 
