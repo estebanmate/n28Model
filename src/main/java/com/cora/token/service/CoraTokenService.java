@@ -7,11 +7,13 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.cora.token.exception.InvalidAuthenticationTokenException;
 import com.cora.token.model.CoraTokenDetails;
+import com.cora.token.model.CoraTokenSettings;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -29,41 +31,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
 @Service
 public class CoraTokenService {
 
-    /**
-     * Secret for signing and verifying the token signature.
-     */
-    @Value("${authentication.jwt.secret}")
-    private String secret;
-
-    /**
-     * Allowed clock skew for verifying the token signature (in seconds).
-     */
-    @Value("${authentication.jwt.clockSkew}")
-    private String clockSkew;
-
-    /**
-     * Identifies the recipients that the JWT token is intended for.
-     */
-    @Value("${authentication.jwt.audience}")
-    private String audience;
-
-    /**
-     * Identifies the JWT token issuer.
-     */
-    @Value("${authentication.jwt.issuer}")
-    private String issuer;
-
-    /**
-     * JWT claim for the plattform.
-     */
-    @Value("${authentication.jwt.claimNames.plattform}")
-    private String plattformClaimName;
-    
-    /**
-     * How String the token is valid for (in seconds).
-     */
-    @Value("${authentication.jwt.validFor}")
-    private String validFor;
+	@Autowired
+    private CoraTokenSettings settings;
 
     /**
      * Issue a token for a user with the given authorities.
@@ -93,13 +62,13 @@ public class CoraTokenService {
 
         return Jwts.builder()
                 .setId(authenticationTokenDetails.getId())
-                .setIssuer(issuer)
-                .setAudience(audience)
+                .setIssuer(settings.getIssuer())
+                .setAudience(settings.getAudience())
                 .setSubject(authenticationTokenDetails.getUsername())
                 .setIssuedAt(Date.from(authenticationTokenDetails.getIssuedDate().toInstant()))
                 .setExpiration(Date.from(authenticationTokenDetails.getExpirationDate().toInstant()))
-                .claim(plattformClaimName, authenticationTokenDetails.getPlattform())
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .claim(settings.getPlattformClaimName(), authenticationTokenDetails.getPlattform())
+                .signWith(SignatureAlgorithm.HS256, settings.getSecret())
                 .compact();
     }
     
@@ -108,9 +77,9 @@ public class CoraTokenService {
         try {
 
             Claims claims = Jwts.parser()
-                    .setSigningKey(secret)
-                    .requireAudience(audience)
-                    .setAllowedClockSkewSeconds(Long.valueOf(clockSkew))
+                    .setSigningKey(settings.getSecret())
+                    .requireAudience(settings.getAudience())
+                    .setAllowedClockSkewSeconds(settings.getClockSkew())
                     .parseClaimsJws(token)
                     .getBody();
 
@@ -160,7 +129,7 @@ public class CoraTokenService {
      * @return Identifier of the JWT token
      */
     private String extractPlattformFromClaims(@NotNull Claims claims) {
-        return (String) claims.get(plattformClaimName);
+        return (String) claims.get(settings.getPlattformClaimName());
     }
     
     /**
@@ -190,7 +159,7 @@ public class CoraTokenService {
      * @return
      */
     private ZonedDateTime calculateExpirationDate(ZonedDateTime issuedDate) {
-        return issuedDate.plusSeconds(Long.valueOf(validFor));
+        return issuedDate.plusSeconds(settings.getValidFor());
     }
 
     /**
