@@ -35,8 +35,8 @@ public class CoraTokenController {
     @RequestMapping(value = "get_token", method = POST)
     public ResponseEntity<CoraToken> getToken(@RequestBody UserCredentials credentials) {
 
-        sendChannelService.validateSendChannel(credentials.getEmail(), credentials.getSmsNumber());
-        String token = authenticationTokenService.getToken(credentials.getUsername(), credentials.getPlattform());
+        sendChannelService.validateSendChannel(credentials);
+        String token = authenticationTokenService.getToken(credentials);
         CoraToken authenticationToken = new CoraToken();
         authenticationToken.setToken(token);
         

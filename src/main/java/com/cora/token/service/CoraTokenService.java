@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.cora.token.exception.InvalidAuthenticationTokenException;
 import com.cora.token.model.CoraTokenDetails;
 import com.cora.token.model.CoraTokenSettings;
+import com.cora.token.model.UserCredentials;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -41,7 +42,7 @@ public class CoraTokenService {
      * @param authorities
      * @return
      */
-    public String getToken(String username, String plattform) {
+    public String getToken(UserCredentials credentials) {
 
         String id = generateTokenIdentifier();
         ZonedDateTime issuedDate = ZonedDateTime.now();
@@ -49,8 +50,8 @@ public class CoraTokenService {
 
         CoraTokenDetails authenticationTokenDetails = new CoraTokenDetails.Builder()
                 .withId(id)
-                .withUsername(username)
-                .withPlattform(plattform)
+                .withUsername(credentials.getUsername())
+                .withPlattform(credentials.getPlattform())
                 .withIssuedDate(issuedDate)
                 .withExpirationDate(expirationDate)
                 .build();

@@ -1,9 +1,12 @@
 package com.cora.token.model;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Credenciales de usuario enviadas para generar token (usuario y plataforma de origen).
  *
  */
+@Component
 public class UserCredentials {
 
     private String username;
