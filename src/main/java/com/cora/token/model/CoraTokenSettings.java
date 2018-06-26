@@ -1,7 +1,9 @@
 package com.cora.token.model;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CoraTokenSettings {
 
     /**
@@ -14,7 +16,7 @@ public class CoraTokenSettings {
      * Allowed clock skew for verifying the token signature (in seconds).
      */
     @Value("authentication.jwt.clockSkew")
-    private Long clockSkew;
+    private String clockSkew;
 
     /**
      * Identifies the recipients that the JWT token is intended for.
@@ -35,13 +37,13 @@ public class CoraTokenSettings {
     private String plattformClaimName = "plattform";
     
     /**
-     * How long the token is valid for (in seconds).
+     * How String the token is valid for (in seconds).
      */
     @Value("authentication.jwt.validFor")
-    private Long validFor;
+    private String validFor;
     
 
-	public void setValidFor(Long validFor) {
+	public void setValidFor(String validFor) {
 		this.validFor = validFor;
 	}
 
@@ -49,7 +51,7 @@ public class CoraTokenSettings {
         return secret;
     }
 
-    public Long getClockSkew() {
+    public String getClockSkew() {
         return clockSkew;
     }
 
@@ -64,7 +66,7 @@ public class CoraTokenSettings {
         return plattformClaimName;
     }
 
-    public Long getValidFor() {
+    public String getValidFor() {
 		return validFor;
 	}
     

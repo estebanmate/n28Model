@@ -81,7 +81,7 @@ public class CoraTokenService {
             Claims claims = Jwts.parser()
                     .setSigningKey(settings.getSecret())
                     .requireAudience(settings.getAudience())
-                    .setAllowedClockSkewSeconds(settings.getClockSkew())
+                    .setAllowedClockSkewSeconds(Long.valueOf(settings.getClockSkew()))
                     .parseClaimsJws(token)
                     .getBody();
 
@@ -161,7 +161,7 @@ public class CoraTokenService {
      * @return
      */
     private ZonedDateTime calculateExpirationDate(ZonedDateTime issuedDate) {
-        return issuedDate.plusSeconds(settings.getValidFor());
+        return issuedDate.plusSeconds(Long.valueOf(settings.getValidFor()));
     }
 
     /**

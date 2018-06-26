@@ -17,7 +17,7 @@ public class SendChannelService {
      */
     public void validateSendChannel(String email, String smsNumber) {
 
-        if (email == null && smsNumber == null) {
+        if (null == email && null == smsNumber) {
             throw new SendChannelException("Error en los canales de envío. Es necesario al menos uno.");
         }
 //
