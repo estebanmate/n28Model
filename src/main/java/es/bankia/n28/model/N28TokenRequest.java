@@ -1,14 +1,14 @@
-package com.cora.token.model;
+package es.bankia.n28.model;
 
 /**
  * API model for the authentication token.
  *
  */
-public class CoraToken {
+public class N28TokenRequest {
 
     private String token;
 
-    public CoraToken() {
+    public N28TokenRequest() {
 
     }
 

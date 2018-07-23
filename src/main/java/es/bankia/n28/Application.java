@@ -1,4 +1,4 @@
-package com.cora.token;
+package es.bankia.n28;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
