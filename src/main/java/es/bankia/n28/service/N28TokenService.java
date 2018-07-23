@@ -1,5 +1,7 @@
 package es.bankia.n28.service;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.crypto.*;
 import javax.crypto.spec.*;
 
@@ -26,27 +28,17 @@ public class N28TokenService {
      public byte[] ivBytes = new byte[]{0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00};
      public IvParameterSpec ivectorSpecv;
 
-     public N28TokenService() throws Exception { 
-	 
-		 try {
-	 		 bankiaKey = new SecretKeySpec(settings.getKey().getBytes(), settings.getAlgorithm());
-			 cipher = Cipher.getInstance(settings.getTransformation());
-			 ivectorSpecv = new IvParameterSpec(ivBytes);
-			 
-	     } catch (Exception e) {
-	         throw new N28TokenException("Token invalido", e);
-	     }	    
-	 }
-	 
-	 public byte[] encrypt(String s) {
+ 	 public byte[] encrypt(String s) {
 
 		try {
-			 cipher.init(Cipher.ENCRYPT_MODE, bankiaKey, ivectorSpecv);
+			this.setParameters();
+			
+			cipher.init(Cipher.ENCRYPT_MODE, bankiaKey, ivectorSpecv);
 	
-			 return(cipher.doFinal(s.getBytes()));
+			return(cipher.doFinal(s.getBytes()));
 			 
 	     } catch (Exception e) {
-	         throw new N28TokenException("Error al encriptar Token", e);
+	        throw new N28TokenException("Error al encriptar Token", e);
 	     }	     
 	       
 	 }
@@ -54,12 +46,21 @@ public class N28TokenService {
 	 public String decrypt(byte[] s) {
 	 
 		try {
-			 cipher.init(Cipher.DECRYPT_MODE, bankiaKey, ivectorSpecv);
+			
+			this.setParameters();
+			
+			cipher.init(Cipher.DECRYPT_MODE, bankiaKey, ivectorSpecv);
 		   
-		     return(new String(cipher.doFinal(s)));
+		    return(new String(cipher.doFinal(s), settings.getCharcode()));
 		     
 	     } catch (Exception e) {
 	         throw new N28TokenException("Error al desencriptar Token", e);
 	     }	     
+	 }
+	 
+	 private void setParameters() throws NoSuchAlgorithmException, NoSuchPaddingException {
+ 		 bankiaKey = new SecretKeySpec(settings.getKey().getBytes(), settings.getAlgorithm());
+		 cipher = Cipher.getInstance(settings.getTransformation());
+		 ivectorSpecv = new IvParameterSpec(ivBytes);
 	 }
 }

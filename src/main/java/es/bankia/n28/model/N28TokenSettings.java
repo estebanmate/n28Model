@@ -11,7 +11,10 @@ public class N28TokenSettings {
 	   
 	@Value("${n28.token.transformation}")
 	private String transformation;
-	   
+
+	@Value("${n28.token.charcode}")
+	private String charcode;
+	
 	@Value("${n28.token.key}")
     private String key;
 
@@ -31,6 +34,14 @@ public class N28TokenSettings {
 		this.transformation = transformation;
 	}
 
+	public String getCharcode() {
+		return charcode;
+	}
+
+	public void setCharcode(String charcode) {
+		this.charcode = charcode;
+	}
+
 	public String getKey() {
 		return key;
 	}
@@ -38,5 +49,7 @@ public class N28TokenSettings {
 	public void setKey(String key) {
 		this.key = key;
 	}
+
+
 
 }
