@@ -9,9 +9,12 @@ public class N28TokenSettings {
  	@Value("${n28.token.algorithm}")
 	private String algorithm;
 	   
-	@Value("${n28.token.transformation}")
-	private String transformation;
+	@Value("${n28.token.encode.transformation}")
+	private String encode_transformation;
 
+	@Value("${n28.token.decode.transformation}")
+	private String decode_transformation;
+	
 	@Value("${n28.token.charcode}")
 	private String charcode;
 	
@@ -26,12 +29,20 @@ public class N28TokenSettings {
 		this.algorithm = algorithm;
 	}
 
-	public String getTransformation() {
-		return transformation;
+	public String getEncode_transformation() {
+		return encode_transformation;
 	}
 
-	public void setTransformation(String transformation) {
-		this.transformation = transformation;
+	public void setEncode_transformation(String encode_transformation) {
+		this.encode_transformation = encode_transformation;
+	}
+
+	public String getDecode_transformation() {
+		return decode_transformation;
+	}
+
+	public void setDecode_transformation(String decode_transformation) {
+		this.decode_transformation = decode_transformation;
 	}
 
 	public String getCharcode() {
@@ -50,6 +61,5 @@ public class N28TokenSettings {
 		this.key = key;
 	}
 
-
-
+	
 }
