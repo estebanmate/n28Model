@@ -1,5 +1,6 @@
 package es.bankia.n28.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import javax.crypto.Cipher;
@@ -10,6 +11,11 @@ import javax.crypto.spec.IvParameterSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+import es.bankia.n28.beans.LIQUIDACIONAUTOLIQUIDACION;
 import es.bankia.n28.model.N28TokenSettings;
 
 import java.util.Base64;
@@ -19,62 +25,64 @@ public class N28TokenService {
 	
 	@Autowired
 	public N28TokenSettings settings;
-	
-    private static byte[] key = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02,
-            0x02, 0x02, 0x02, 0x02, 0x02, 0x02 };
 
     private static byte[] keyiv = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00 };
 
-
-
      public String encode(String args) {
 
-
-        System.out.println("plain data==>  " + args);
-
         byte[] encoding;
+        
         try {
-            encoding = Base64.getEncoder().encode(args.getBytes(settings.getCharcode()));
+	        encoding = Base64.getEncoder().encode(args.getBytes(settings.getCharcode()));
+	
+	        byte[] str5 = des3EncodeCBC(settings.getKey().getBytes(), keyiv, encoding);
+	
+	        byte[] encoding1 = Base64.getEncoder().encode(str5);
+	        
+	        System.out.println("Texto a encriptar ==>  " + args);
+	
+	        System.out.println("Token texto encriptado ==> " + new String(encoding1));
+	
+	        return new String(encoding1);
 
-        System.out.println("Base64.encodeBase64==>" + new String(encoding));
-        byte[] str5 = des3EncodeCBC(key, keyiv, encoding);
-
-        System.out.println("des3EncodeCBC==>  " + new String(str5));
-
-        byte[] encoding1 = Base64.getEncoder().encode(str5);
-        System.out.println("Base64.encodeBase64==> " + new String(encoding1));
-        return new String(encoding1);
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         return null;
     }
 
 
     public String decode(String args) {
         try {
-            System.out.println("encrypted data==>" + new String(args.getBytes(settings.getCharcode())));
-
-
-        byte[] decode = Base64.getDecoder().decode(args.getBytes(settings.getCharcode()));
-        System.out.println("Base64.decodeBase64(main encription)==>" + new String(decode));
-
-        byte[] str6 = des3DecodeCBC(key, keyiv, decode);
-        System.out.println("des3DecodeCBC==>" + new String(str6));
-        String data=new String(str6);
-        byte[] decode1 = Base64.getDecoder().decode(data.trim().getBytes(settings.getCharcode()));
-        System.out.println("plaintext==>  " + new String(decode1));
-        return new String(decode1);
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        
+	        System.out.println("Token a desencriptar ==> " + new String(args.getBytes(settings.getCharcode())));
+	
+	        byte[] decode = Base64.getDecoder().decode(args.getBytes(settings.getCharcode()));
+	 
+	        byte[] str6 = des3DecodeCBC(settings.getKey().getBytes(), keyiv, decode);
+	 
+	        String data=new String(str6);
+	        
+	        byte[] decode1 = Base64.getDecoder().decode(data.trim().getBytes(settings.getCharcode()));
+	        
+	        System.out.println("Texto desencriptado ==>  " + new String(decode1));
+	        
+	        System.out.println("Datos Desencriptados ==>  ");
+	        
+	        generaXML(new String(decode1));
+	        
+	        return new String(decode1);
+        } catch (JAXBException e1) {
+            e1.printStackTrace();
+        } catch (UnsupportedEncodingException e2) {
+            e2.printStackTrace();
         }
-        return "u mistaken in try block";
+        
+        return null;
 
-        }
+    }
 
     private byte[] des3EncodeCBC(byte[] key, byte[] keyiv, byte[] data) {
         try {
@@ -90,8 +98,9 @@ public class N28TokenService {
             return bout;
 
         } catch (Exception e) {
-            System.out.println("methods qualified name" + e);
+            System.out.println("Error en generación de TOKEN_REPLY" + e);
         }
+        
         return null;
 
     }
@@ -109,15 +118,35 @@ public class N28TokenService {
 
             byte[] bout = cipher.doFinal(data);
 
-
             return bout;
 
         } catch (Exception e) {
-            System.out.println("methods qualified name" + e);
+            System.out.println("Error en validación de TOKEN_REQUEST" + e);
         }
-
         return null;
 
+    }
+    
+    private void generaXML(String cadenaXML) throws JAXBException {
+    	JAXBContext jaxbContext = JAXBContext.newInstance(LIQUIDACIONAUTOLIQUIDACION.class);
+
+    	Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+    	LIQUIDACIONAUTOLIQUIDACION xmlClass = 
+    		(LIQUIDACIONAUTOLIQUIDACION)unmarshaller.unmarshal(
+    			new ByteArrayInputStream(cadenaXML.getBytes()
+    			));
+
+       	System.out.println("ID Comunicación: "+xmlClass.getREQUEST().getCABECERA().getIDCOMUNICACION());        
+       	System.out.println("APLICACION/EMISOR: "+xmlClass.getREQUEST().getCABECERA().getAPLICACION()+"/"+xmlClass.getREQUEST().getCABECERA().getEMISOR());        
+    	
+       	System.out.println("URL vuelta: "+xmlClass.getREQUEST().getURLCOMUNICACION().getURLVUELTA());        
+       	System.out.println("URL Notificación: "+xmlClass.getREQUEST().getURLCOMUNICACION().getURLNOTIFICACION());        
+       	
+       	System.out.println("Titular de la Cuenta: "+xmlClass.getREQUEST().getLOTE().getCARGO().getTITULARCUENTA());        
+    	System.out.println("Importe: "+xmlClass.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIMPORTEINGRESO());  
+    	System.out.println("MACODE: "+xmlClass.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getMACODE());   
+    	
     }
 
 }

@@ -52,16 +52,14 @@ public class N28TokenController {
      * @throws Exception 
      */
     @RequestMapping(value = "validate_token", method = POST)
-    public ResponseEntity<N28TokenResponse> getXML(@RequestBody N28TokenRequest n28TokenRequest) throws Exception {
+    public ResponseEntity<String> getXML(@RequestBody N28TokenRequest n28TokenRequest) throws Exception {
 
-        String token = n28TokenService.decode(n28TokenRequest.getToken());
-        N28TokenResponse n28Token = new N28TokenResponse();
-        n28Token.setToken(token);
+        String xmlRequest = n28TokenService.decode(n28TokenRequest.getToken());
         
-		if(null != n28Token && null != n28Token.getToken()) {
-			return new ResponseEntity<>(n28Token, HttpStatus.OK);
+		if(null != xmlRequest && !"".equals(xmlRequest)) {
+			return new ResponseEntity<>(xmlRequest, HttpStatus.OK);
 		}else {
-			return new ResponseEntity<>(n28Token, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(xmlRequest, HttpStatus.NO_CONTENT);
 		}
         
     }
