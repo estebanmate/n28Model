@@ -59,7 +59,7 @@ import javax.xml.bind.annotation.XmlType;
     "apellido2",
     "razonsocial"
 })
-public class INTERVINIENTE {
+public class XmlHolder {
 
     @XmlElement(name = "NIF_CIF", required = true)
     protected String nifcif;

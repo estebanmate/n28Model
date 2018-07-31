@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlType;
     "emisor",
     "receptor"
 })
-public class CABECERAMENSAJETYPE {
+public class XmlHeader {
 
     @XmlElement(name = "ID_COMUNICACION", required = true)
     protected String idcomunicacion;

@@ -192,24 +192,24 @@ import javax.xml.bind.annotation.XmlType;
     "validacion"
 })
 @XmlRootElement(name = "LIQUIDACION_AUTOLIQUIDACION")
-public class LIQUIDACIONAUTOLIQUIDACION {
+public class XmlBody {
 
     @XmlElement(name = "REQUEST")
-    protected LIQUIDACIONAUTOLIQUIDACION.REQUEST request;
+    protected XmlBody.REQUEST request;
     @XmlElement(name = "REPLY")
-    protected LIQUIDACIONAUTOLIQUIDACION.REPLY reply;
+    protected XmlBody.REPLY reply;
     @XmlElement(name = "VALIDACION")
-    protected LIQUIDACIONAUTOLIQUIDACION.VALIDACION validacion;
+    protected XmlBody.VALIDACION validacion;
 
     /**
      * Gets the value of the request property.
      * 
      * @return
      *     possible object is
-     *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST }
+     *     {@link XmlBody.REQUEST }
      *     
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REQUEST getREQUEST() {
+    public XmlBody.REQUEST getREQUEST() {
         return request;
     }
 
@@ -218,10 +218,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
      * 
      * @param value
      *     allowed object is
-     *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST }
+     *     {@link XmlBody.REQUEST }
      *     
      */
-    public void setREQUEST(LIQUIDACIONAUTOLIQUIDACION.REQUEST value) {
+    public void setREQUEST(XmlBody.REQUEST value) {
         this.request = value;
     }
 
@@ -230,10 +230,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
      * 
      * @return
      *     possible object is
-     *     {@link LIQUIDACIONAUTOLIQUIDACION.REPLY }
+     *     {@link XmlBody.REPLY }
      *     
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REPLY getREPLY() {
+    public XmlBody.REPLY getREPLY() {
         return reply;
     }
 
@@ -242,10 +242,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
      * 
      * @param value
      *     allowed object is
-     *     {@link LIQUIDACIONAUTOLIQUIDACION.REPLY }
+     *     {@link XmlBody.REPLY }
      *     
      */
-    public void setREPLY(LIQUIDACIONAUTOLIQUIDACION.REPLY value) {
+    public void setREPLY(XmlBody.REPLY value) {
         this.reply = value;
     }
 
@@ -254,10 +254,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
      * 
      * @return
      *     possible object is
-     *     {@link LIQUIDACIONAUTOLIQUIDACION.VALIDACION }
+     *     {@link XmlBody.VALIDACION }
      *     
      */
-    public LIQUIDACIONAUTOLIQUIDACION.VALIDACION getVALIDACION() {
+    public XmlBody.VALIDACION getVALIDACION() {
         return validacion;
     }
 
@@ -266,10 +266,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
      * 
      * @param value
      *     allowed object is
-     *     {@link LIQUIDACIONAUTOLIQUIDACION.VALIDACION }
+     *     {@link XmlBody.VALIDACION }
      *     
      */
-    public void setVALIDACION(LIQUIDACIONAUTOLIQUIDACION.VALIDACION value) {
+    public void setVALIDACION(XmlBody.VALIDACION value) {
         this.validacion = value;
     }
 
@@ -337,19 +337,19 @@ public class LIQUIDACIONAUTOLIQUIDACION {
     public static class REPLY {
 
         @XmlElement(name = "CABECERA", required = true)
-        protected CABECERAMENSAJETYPE cabecera;
+        protected XmlHeader cabecera;
         @XmlElement(name = "RESPUESTA_LOTE", required = true)
-        protected LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE respuestalote;
+        protected XmlBody.REPLY.RESPUESTALOTE respuestalote;
 
         /**
          * Gets the value of the cabecera property.
          * 
          * @return
          *     possible object is
-         *     {@link CABECERAMENSAJETYPE }
+         *     {@link XmlHeader }
          *     
          */
-        public CABECERAMENSAJETYPE getCABECERA() {
+        public XmlHeader getCABECERA() {
             return cabecera;
         }
 
@@ -358,10 +358,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
          * 
          * @param value
          *     allowed object is
-         *     {@link CABECERAMENSAJETYPE }
+         *     {@link XmlHeader }
          *     
          */
-        public void setCABECERA(CABECERAMENSAJETYPE value) {
+        public void setCABECERA(XmlHeader value) {
             this.cabecera = value;
         }
 
@@ -370,10 +370,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
          * 
          * @return
          *     possible object is
-         *     {@link LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE }
+         *     {@link XmlBody.REPLY.RESPUESTALOTE }
          *     
          */
-        public LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE getRESPUESTALOTE() {
+        public XmlBody.REPLY.RESPUESTALOTE getRESPUESTALOTE() {
             return respuestalote;
         }
 
@@ -382,10 +382,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
          * 
          * @param value
          *     allowed object is
-         *     {@link LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE }
+         *     {@link XmlBody.REPLY.RESPUESTALOTE }
          *     
          */
-        public void setRESPUESTALOTE(LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE value) {
+        public void setRESPUESTALOTE(XmlBody.REPLY.RESPUESTALOTE value) {
             this.respuestalote = value;
         }
 
@@ -452,7 +452,7 @@ public class LIQUIDACIONAUTOLIQUIDACION {
             @XmlSchemaType(name = "nonNegativeInteger")
             protected BigInteger numcargos;
             @XmlElement(name = "DETALLE_CARGO", required = true)
-            protected List<LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE.DETALLECARGO> detallecargo;
+            protected List<XmlBody.REPLY.RESPUESTALOTE.DETALLECARGO> detallecargo;
 
             /**
              * Gets the value of the idlote property.
@@ -544,13 +544,13 @@ public class LIQUIDACIONAUTOLIQUIDACION {
              * 
              * <p>
              * Objects of the following type(s) are allowed in the list
-             * {@link LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE.DETALLECARGO }
+             * {@link XmlBody.REPLY.RESPUESTALOTE.DETALLECARGO }
              * 
              * 
              */
-            public List<LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE.DETALLECARGO> getDETALLECARGO() {
+            public List<XmlBody.REPLY.RESPUESTALOTE.DETALLECARGO> getDETALLECARGO() {
                 if (detallecargo == null) {
-                    detallecargo = new ArrayList<LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE.DETALLECARGO>();
+                    detallecargo = new ArrayList<XmlBody.REPLY.RESPUESTALOTE.DETALLECARGO>();
                 }
                 return this.detallecargo;
             }
@@ -895,21 +895,21 @@ public class LIQUIDACIONAUTOLIQUIDACION {
     public static class REQUEST {
 
         @XmlElement(name = "CABECERA", required = true)
-        protected CABECERAMENSAJETYPE cabecera;
+        protected XmlHeader cabecera;
         @XmlElement(name = "URL_COMUNICACION", required = true)
-        protected LIQUIDACIONAUTOLIQUIDACION.REQUEST.URLCOMUNICACION urlcomunicacion;
+        protected XmlBody.REQUEST.URLCOMUNICACION urlcomunicacion;
         @XmlElement(name = "LOTE", required = true)
-        protected LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE lote;
+        protected XmlBody.REQUEST.LOTE lote;
 
         /**
          * Gets the value of the cabecera property.
          * 
          * @return
          *     possible object is
-         *     {@link CABECERAMENSAJETYPE }
+         *     {@link XmlHeader }
          *     
          */
-        public CABECERAMENSAJETYPE getCABECERA() {
+        public XmlHeader getCABECERA() {
             return cabecera;
         }
 
@@ -918,10 +918,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
          * 
          * @param value
          *     allowed object is
-         *     {@link CABECERAMENSAJETYPE }
+         *     {@link XmlHeader }
          *     
          */
-        public void setCABECERA(CABECERAMENSAJETYPE value) {
+        public void setCABECERA(XmlHeader value) {
             this.cabecera = value;
         }
 
@@ -930,10 +930,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
          * 
          * @return
          *     possible object is
-         *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.URLCOMUNICACION }
+         *     {@link XmlBody.REQUEST.URLCOMUNICACION }
          *     
          */
-        public LIQUIDACIONAUTOLIQUIDACION.REQUEST.URLCOMUNICACION getURLCOMUNICACION() {
+        public XmlBody.REQUEST.URLCOMUNICACION getURLCOMUNICACION() {
             return urlcomunicacion;
         }
 
@@ -942,10 +942,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
          * 
          * @param value
          *     allowed object is
-         *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.URLCOMUNICACION }
+         *     {@link XmlBody.REQUEST.URLCOMUNICACION }
          *     
          */
-        public void setURLCOMUNICACION(LIQUIDACIONAUTOLIQUIDACION.REQUEST.URLCOMUNICACION value) {
+        public void setURLCOMUNICACION(XmlBody.REQUEST.URLCOMUNICACION value) {
             this.urlcomunicacion = value;
         }
 
@@ -954,10 +954,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
          * 
          * @return
          *     possible object is
-         *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE }
+         *     {@link XmlBody.REQUEST.LOTE }
          *     
          */
-        public LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE getLOTE() {
+        public XmlBody.REQUEST.LOTE getLOTE() {
             return lote;
         }
 
@@ -966,10 +966,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
          * 
          * @param value
          *     allowed object is
-         *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE }
+         *     {@link XmlBody.REQUEST.LOTE }
          *     
          */
-        public void setLOTE(LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE value) {
+        public void setLOTE(XmlBody.REQUEST.LOTE value) {
             this.lote = value;
         }
 
@@ -1068,9 +1068,9 @@ public class LIQUIDACIONAUTOLIQUIDACION {
             @XmlElement(name = "TIPO_SERVICIO", required = true)
             protected String tiposervicio;
             @XmlElement(name = "CARGO", required = true)
-            protected LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO cargo;
+            protected XmlBody.REQUEST.LOTE.CARGO cargo;
             @XmlElement(name = "DETALLE_INGRESO", required = true)
-            protected List<LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.DETALLEINGRESO> detalleingreso;
+            protected List<XmlBody.REQUEST.LOTE.DETALLEINGRESO> detalleingreso;
 
             /**
              * Gets the value of the idlote property.
@@ -1173,10 +1173,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
              * 
              * @return
              *     possible object is
-             *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO }
+             *     {@link XmlBody.REQUEST.LOTE.CARGO }
              *     
              */
-            public LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO getCARGO() {
+            public XmlBody.REQUEST.LOTE.CARGO getCARGO() {
                 return cargo;
             }
 
@@ -1185,10 +1185,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
              * 
              * @param value
              *     allowed object is
-             *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO }
+             *     {@link XmlBody.REQUEST.LOTE.CARGO }
              *     
              */
-            public void setCARGO(LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO value) {
+            public void setCARGO(XmlBody.REQUEST.LOTE.CARGO value) {
                 this.cargo = value;
             }
 
@@ -1210,13 +1210,13 @@ public class LIQUIDACIONAUTOLIQUIDACION {
              * 
              * <p>
              * Objects of the following type(s) are allowed in the list
-             * {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.DETALLEINGRESO }
+             * {@link XmlBody.REQUEST.LOTE.DETALLEINGRESO }
              * 
              * 
              */
-            public List<LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.DETALLEINGRESO> getDETALLEINGRESO() {
+            public List<XmlBody.REQUEST.LOTE.DETALLEINGRESO> getDETALLEINGRESO() {
                 if (detalleingreso == null) {
-                    detalleingreso = new ArrayList<LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.DETALLEINGRESO>();
+                    detalleingreso = new ArrayList<XmlBody.REQUEST.LOTE.DETALLEINGRESO>();
                 }
                 return this.detalleingreso;
             }
@@ -1265,7 +1265,7 @@ public class LIQUIDACIONAUTOLIQUIDACION {
                 @XmlElement(name = "TITULAR_CUENTA", required = true)
                 protected String titularcuenta;
                 @XmlElement(name = "CUENTA_CARGO", required = true)
-                protected LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO.CUENTACARGO cuentacargo;
+                protected XmlBody.REQUEST.LOTE.CARGO.CUENTACARGO cuentacargo;
 
                 /**
                  * Gets the value of the titularcuenta property.
@@ -1296,10 +1296,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
                  * 
                  * @return
                  *     possible object is
-                 *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO.CUENTACARGO }
+                 *     {@link XmlBody.REQUEST.LOTE.CARGO.CUENTACARGO }
                  *     
                  */
-                public LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO.CUENTACARGO getCUENTACARGO() {
+                public XmlBody.REQUEST.LOTE.CARGO.CUENTACARGO getCUENTACARGO() {
                     return cuentacargo;
                 }
 
@@ -1308,10 +1308,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
                  * 
                  * @param value
                  *     allowed object is
-                 *     {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO.CUENTACARGO }
+                 *     {@link XmlBody.REQUEST.LOTE.CARGO.CUENTACARGO }
                  *     
                  */
-                public void setCUENTACARGO(LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO.CUENTACARGO value) {
+                public void setCUENTACARGO(XmlBody.REQUEST.LOTE.CARGO.CUENTACARGO value) {
                     this.cuentacargo = value;
                 }
 
@@ -1508,7 +1508,7 @@ public class LIQUIDACIONAUTOLIQUIDACION {
                 @XmlElement(name = "IMPORTE_INGRESO", required = true)
                 protected String importeingreso;
                 @XmlElement(name = "SUJETO_PASIVO", required = true)
-                protected INTERVINIENTE sujetopasivo;
+                protected XmlHolder sujetopasivo;
                 @XmlElement(name = "OLDH", required = true)
                 protected String oldh;
                 @XmlElement(name = "HECHO_IMP", required = true)
@@ -1569,10 +1569,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
                  * 
                  * @return
                  *     possible object is
-                 *     {@link INTERVINIENTE }
+                 *     {@link XmlHolder }
                  *     
                  */
-                public INTERVINIENTE getSUJETOPASIVO() {
+                public XmlHolder getSUJETOPASIVO() {
                     return sujetopasivo;
                 }
 
@@ -1581,10 +1581,10 @@ public class LIQUIDACIONAUTOLIQUIDACION {
                  * 
                  * @param value
                  *     allowed object is
-                 *     {@link INTERVINIENTE }
+                 *     {@link XmlHolder }
                  *     
                  */
-                public void setSUJETOPASIVO(INTERVINIENTE value) {
+                public void setSUJETOPASIVO(XmlHolder value) {
                     this.sujetopasivo = value;
                 }
 

@@ -37,107 +37,107 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION }
+     * Create an instance of {@link XmlBody }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION createLIQUIDACIONAUTOLIQUIDACION() {
-        return new LIQUIDACIONAUTOLIQUIDACION();
+    public XmlBody createLIQUIDACIONAUTOLIQUIDACION() {
+        return new XmlBody();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.REPLY }
+     * Create an instance of {@link XmlBody.REPLY }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REPLY createLIQUIDACIONAUTOLIQUIDACIONREPLY() {
-        return new LIQUIDACIONAUTOLIQUIDACION.REPLY();
+    public XmlBody.REPLY createLIQUIDACIONAUTOLIQUIDACIONREPLY() {
+        return new XmlBody.REPLY();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE }
+     * Create an instance of {@link XmlBody.REPLY.RESPUESTALOTE }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE createLIQUIDACIONAUTOLIQUIDACIONREPLYRESPUESTALOTE() {
-        return new LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE();
+    public XmlBody.REPLY.RESPUESTALOTE createLIQUIDACIONAUTOLIQUIDACIONREPLYRESPUESTALOTE() {
+        return new XmlBody.REPLY.RESPUESTALOTE();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST }
+     * Create an instance of {@link XmlBody.REQUEST }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REQUEST createLIQUIDACIONAUTOLIQUIDACIONREQUEST() {
-        return new LIQUIDACIONAUTOLIQUIDACION.REQUEST();
+    public XmlBody.REQUEST createLIQUIDACIONAUTOLIQUIDACIONREQUEST() {
+        return new XmlBody.REQUEST();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE }
+     * Create an instance of {@link XmlBody.REQUEST.LOTE }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE createLIQUIDACIONAUTOLIQUIDACIONREQUESTLOTE() {
-        return new LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE();
+    public XmlBody.REQUEST.LOTE createLIQUIDACIONAUTOLIQUIDACIONREQUESTLOTE() {
+        return new XmlBody.REQUEST.LOTE();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO }
+     * Create an instance of {@link XmlBody.REQUEST.LOTE.CARGO }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO createLIQUIDACIONAUTOLIQUIDACIONREQUESTLOTECARGO() {
-        return new LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO();
+    public XmlBody.REQUEST.LOTE.CARGO createLIQUIDACIONAUTOLIQUIDACIONREQUESTLOTECARGO() {
+        return new XmlBody.REQUEST.LOTE.CARGO();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.VALIDACION }
+     * Create an instance of {@link XmlBody.VALIDACION }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.VALIDACION createLIQUIDACIONAUTOLIQUIDACIONVALIDACION() {
-        return new LIQUIDACIONAUTOLIQUIDACION.VALIDACION();
+    public XmlBody.VALIDACION createLIQUIDACIONAUTOLIQUIDACIONVALIDACION() {
+        return new XmlBody.VALIDACION();
     }
 
     /**
-     * Create an instance of {@link CABECERAMENSAJETYPE }
+     * Create an instance of {@link XmlHeader }
      * 
      */
-    public CABECERAMENSAJETYPE createCABECERAMENSAJETYPE() {
-        return new CABECERAMENSAJETYPE();
+    public XmlHeader createCABECERAMENSAJETYPE() {
+        return new XmlHeader();
     }
 
     /**
-     * Create an instance of {@link INTERVINIENTE }
+     * Create an instance of {@link XmlHolder }
      * 
      */
-    public INTERVINIENTE createINTERVINIENTE() {
-        return new INTERVINIENTE();
+    public XmlHolder createINTERVINIENTE() {
+        return new XmlHolder();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE.DETALLECARGO }
+     * Create an instance of {@link XmlBody.REPLY.RESPUESTALOTE.DETALLECARGO }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE.DETALLECARGO createLIQUIDACIONAUTOLIQUIDACIONREPLYRESPUESTALOTEDETALLECARGO() {
-        return new LIQUIDACIONAUTOLIQUIDACION.REPLY.RESPUESTALOTE.DETALLECARGO();
+    public XmlBody.REPLY.RESPUESTALOTE.DETALLECARGO createLIQUIDACIONAUTOLIQUIDACIONREPLYRESPUESTALOTEDETALLECARGO() {
+        return new XmlBody.REPLY.RESPUESTALOTE.DETALLECARGO();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.URLCOMUNICACION }
+     * Create an instance of {@link XmlBody.REQUEST.URLCOMUNICACION }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REQUEST.URLCOMUNICACION createLIQUIDACIONAUTOLIQUIDACIONREQUESTURLCOMUNICACION() {
-        return new LIQUIDACIONAUTOLIQUIDACION.REQUEST.URLCOMUNICACION();
+    public XmlBody.REQUEST.URLCOMUNICACION createLIQUIDACIONAUTOLIQUIDACIONREQUESTURLCOMUNICACION() {
+        return new XmlBody.REQUEST.URLCOMUNICACION();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.DETALLEINGRESO }
+     * Create an instance of {@link XmlBody.REQUEST.LOTE.DETALLEINGRESO }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.DETALLEINGRESO createLIQUIDACIONAUTOLIQUIDACIONREQUESTLOTEDETALLEINGRESO() {
-        return new LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.DETALLEINGRESO();
+    public XmlBody.REQUEST.LOTE.DETALLEINGRESO createLIQUIDACIONAUTOLIQUIDACIONREQUESTLOTEDETALLEINGRESO() {
+        return new XmlBody.REQUEST.LOTE.DETALLEINGRESO();
     }
 
     /**
-     * Create an instance of {@link LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO.CUENTACARGO }
+     * Create an instance of {@link XmlBody.REQUEST.LOTE.CARGO.CUENTACARGO }
      * 
      */
-    public LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO.CUENTACARGO createLIQUIDACIONAUTOLIQUIDACIONREQUESTLOTECARGOCUENTACARGO() {
-        return new LIQUIDACIONAUTOLIQUIDACION.REQUEST.LOTE.CARGO.CUENTACARGO();
+    public XmlBody.REQUEST.LOTE.CARGO.CUENTACARGO createLIQUIDACIONAUTOLIQUIDACIONREQUESTLOTECARGOCUENTACARGO() {
+        return new XmlBody.REQUEST.LOTE.CARGO.CUENTACARGO();
     }
 
 }
