@@ -19,6 +19,7 @@ import es.bankia.n28.beans.XmlBody;
 import es.bankia.n28.model.N28TokenSettings;
 import es.bankia.n28.constants.N28Constants;
 
+import java.util.ArrayList;
 import java.util.Base64;
 
 @Service
@@ -34,9 +35,9 @@ public class N28TokenService {
 		byte[] encoding;
 
 		try {
-			encoding = Base64.getEncoder().encode(args.getBytes(settings.getCharcode()));
+			encoding = Base64.getEncoder().encode(args.getBytes(settings.getTokenCharcode()));
 
-			byte[] str5 = des3EncodeCBC(settings.getKey().getBytes(), keyiv, encoding);
+			byte[] str5 = des3EncodeCBC(settings.getTokenKey().getBytes(), keyiv, encoding);
 
 			byte[] encoding1 = Base64.getEncoder().encode(str5);
 
@@ -56,15 +57,15 @@ public class N28TokenService {
 	public String decode(String args) {
 		try {
 
-			System.out.println("Token a desencriptar ==> " + new String(args.getBytes(settings.getCharcode())));
+			System.out.println("Token a desencriptar ==> " + new String(args.getBytes(settings.getTokenCharcode())));
 
-			byte[] decode = Base64.getDecoder().decode(args.getBytes(settings.getCharcode()));
+			byte[] decode = Base64.getDecoder().decode(args.getBytes(settings.getTokenCharcode()));
 
-			byte[] str6 = des3DecodeCBC(settings.getKey().getBytes(), keyiv, decode);
+			byte[] str6 = des3DecodeCBC(settings.getTokenKey().getBytes(), keyiv, decode);
 
 			String data = new String(str6);
 
-			byte[] decode1 = Base64.getDecoder().decode(data.trim().getBytes(settings.getCharcode()));
+			byte[] decode1 = Base64.getDecoder().decode(data.trim().getBytes(settings.getTokenCharcode()));
 
 			System.out.println("Texto desencriptado ==>  " + new String(decode1));
 
@@ -87,10 +88,10 @@ public class N28TokenService {
 		try {
 			Key deskey = null;
 			DESedeKeySpec spec = new DESedeKeySpec(key);
-			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance(settings.getAlgorithm());
+			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance(settings.getTokenAlgorithm());
 			deskey = keyfactory.generateSecret(spec);
 
-			Cipher cipher = Cipher.getInstance(settings.getEncode_transformation());
+			Cipher cipher = Cipher.getInstance(settings.getTokenEncodeTransformation());
 			IvParameterSpec ips = new IvParameterSpec(keyiv);
 			cipher.init(Cipher.ENCRYPT_MODE, deskey, ips);
 			byte[] bout = cipher.doFinal(data);
@@ -108,10 +109,10 @@ public class N28TokenService {
 		try {
 			Key deskey = null;
 			DESedeKeySpec spec = new DESedeKeySpec(key);
-			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance(settings.getAlgorithm());
+			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance(settings.getTokenAlgorithm());
 			deskey = keyfactory.generateSecret(spec);
 
-			Cipher cipher = Cipher.getInstance(settings.getEncode_transformation());
+			Cipher cipher = Cipher.getInstance(settings.getTokenDecodeTransformation());
 			IvParameterSpec ips = new IvParameterSpec(keyiv);
 			cipher.init(Cipher.DECRYPT_MODE, deskey, ips);
 
@@ -145,29 +146,19 @@ public class N28TokenService {
 		System.out.println("MACODE: " + xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getMACODE());
 
 		// Generamos los datos mockeados de la respuesta
-		XmlBody xmlReply = generaXmlReply(xmlBody);
-
-		System.out.println("MAC_CCT: " + xmlReply.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).getMACCCT());
+		String MACCCT = generarMACCCT(xmlBody);
+//		XmlBody xmlReply = generaXmlReply(xmlBody);
+//
+//		System.out.println("MAC_CCT: " + xmlReply.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).getMACCCT());
 
 	}
 
 	private XmlBody generaXmlReply(XmlBody xmlBody) {
 
-		XmlBody xmlReply = generaMockRespuesta(xmlBody);
-
-		if (!N28Constants.N28_RESULTADO_KO_88
-				.equals(xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).getRESULTADO())) {
-			StringBuilder MAC_CCT = new StringBuilder().append(xmlReply.getREPLY().getCABECERA().getIDCOMUNICACION())
-					.append(xmlReply.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).getIMPORTEING())
-					.append(xmlReply.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).getFECHAING())
-					.append(xmlReply.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).getENTIDADING())
-					.append(xmlReply.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getMACODE());
-			xmlReply.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setMACCCT(MAC_CCT.toString());
-		} else
-			xmlReply.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0)
-					.setMACCCT(N28Constants.N28_RESULTADO_KO_88_MSG);
-
-		return xmlReply;
+		// TODO: Comprobar el MACODE de la REQUEST
+		// TODO: Generar las llamadas para rellenar el REPLY
+		// TODO: Generar el Token del REPLY
+		return generaMockRespuesta(xmlBody);
 	}
 
 	private XmlBody generaMockRespuesta(XmlBody xmlBody) {
@@ -175,21 +166,36 @@ public class N28TokenService {
 		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setFECHAING("20180504");
 		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setENTIDADING("0049");
 		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIMPORTEING("000000045654");
-		if (generarMACODE(xmlBody).equals(xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getMACODE())) {
-			xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0)
-					.setVALIDACIONCCT(N28Constants.N28_VALIDACION_CCT_OK);
-			xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setRESULTADO(N28Constants.N28_RESULTADO_OK);
-		} else {
-			xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0)
-					.setVALIDACIONCCT(N28Constants.N28_VALIDACION_CCT_KO);
-			xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0)
-					.setRESULTADO(N28Constants.N28_RESULTADO_KO_88);
-		}
+		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setMACCCT(generarMACCCT(xmlBody));
+
 		return xmlBody;
 	}
 
-	private String generarMACODE(XmlBody xmlBody) {
-		// TODO generación del MACODE con algoritmo DES
+	private String generarMACCCT(XmlBody xmlBody) {
+		StringBuilder CADENA_ORIGEN = new StringBuilder()
+				.append(xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIDUNICO())
+				.append(String.format("%013d",
+						Integer.parseInt(
+								xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIMPORTEINGRESO())))
+				.append(xmlBody.getREQUEST().getCABECERA().getFECHA())
+				.append(xmlBody.getREQUEST().getLOTE().getCARGO().getCUENTACARGO().getENTIDAD());
+
+		ArrayList<String> grupos = new ArrayList<String>(7);
+
+		// Generamos los grupos de bytes
+		for (int grupo = 0; grupo < 7; grupo++) {
+			int inicio = grupo * 8;
+			if (grupo == 6) {
+				String cadenaEntrada = CADENA_ORIGEN.substring(inicio).trim();
+				grupos.add(grupo, String.format("%1$-8s", cadenaEntrada).replace(" ", "0"));
+			} else {
+				String cadenaEntrada = CADENA_ORIGEN.substring(inicio, inicio + 8).trim();
+				grupos.add(grupo, cadenaEntrada);
+			}
+		}
+
+		// Tratamos los grupos de bytes
+
 		return "1F54393D7E5F4527";
 	}
 }

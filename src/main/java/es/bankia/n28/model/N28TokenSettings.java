@@ -6,60 +6,81 @@ import org.springframework.stereotype.Component;
 @Component
 public class N28TokenSettings {
 
- 	@Value("${n28.token.algorithm}")
-	private String algorithm;
-	   
+	@Value("${n28.token.algorithm}")
+	private String tokenAlgorithm;
+
 	@Value("${n28.token.encode.transformation}")
-	private String encode_transformation;
+	private String tokenEncodeTransformation;
 
 	@Value("${n28.token.decode.transformation}")
-	private String decode_transformation;
-	
+	private String tokenDecodeTransformation;
+
 	@Value("${n28.token.charcode}")
-	private String charcode;
-	
+	private String tokenCharcode;
+
 	@Value("${n28.token.key}")
-    private String key;
+	private String tokenKey;
 
-	public String getAlgorithm() {
-		return algorithm;
+	@Value("${n28.mac.algorithm}")
+	private String macAlgorithm;
+
+	@Value("${n28.mac.key}")
+	private String macKey;
+
+	public String getTokenAlgorithm() {
+		return tokenAlgorithm;
 	}
 
-	public void setAlgorithm(String algorithm) {
-		this.algorithm = algorithm;
+	public void setTokenAlgorithm(String tokenAlgorithm) {
+		this.tokenAlgorithm = tokenAlgorithm;
 	}
 
-	public String getEncode_transformation() {
-		return encode_transformation;
+	public String getTokenEncodeTransformation() {
+		return tokenEncodeTransformation;
 	}
 
-	public void setEncode_transformation(String encode_transformation) {
-		this.encode_transformation = encode_transformation;
+	public void setTokenEncodeTransformation(String tokenEncodeTransformation) {
+		this.tokenEncodeTransformation = tokenEncodeTransformation;
 	}
 
-	public String getDecode_transformation() {
-		return decode_transformation;
+	public String getTokenDecodeTransformation() {
+		return tokenDecodeTransformation;
 	}
 
-	public void setDecode_transformation(String decode_transformation) {
-		this.decode_transformation = decode_transformation;
+	public void setTokenDecodeTransformation(String tokenDecodeTransformation) {
+		this.tokenDecodeTransformation = tokenDecodeTransformation;
 	}
 
-	public String getCharcode() {
-		return charcode;
+	public String getTokenCharcode() {
+		return tokenCharcode;
 	}
 
-	public void setCharcode(String charcode) {
-		this.charcode = charcode;
+	public void setTokenCharcode(String tokenCharcode) {
+		this.tokenCharcode = tokenCharcode;
 	}
 
-	public String getKey() {
-		return key;
+	public String getTokenKey() {
+		return tokenKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setTokenKey(String tokenKey) {
+		this.tokenKey = tokenKey;
 	}
 
-	
+	public String getMacAlgorithm() {
+		return macAlgorithm;
+	}
+
+	public void setMacAlgorithm(String macAlgorithm) {
+		this.macAlgorithm = macAlgorithm;
+	}
+
+	public String getMacKey() {
+		return macKey;
+	}
+
+	public void setMacKey(String macKey) {
+		this.macKey = macKey;
+	}
+
 }
