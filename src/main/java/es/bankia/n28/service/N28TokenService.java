@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
@@ -30,7 +32,7 @@ public class N28TokenService {
 
 	private static byte[] keyiv = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-	public String encode(String args) {
+	public String encode3DES(String args) {
 
 		byte[] encoding;
 
@@ -54,7 +56,7 @@ public class N28TokenService {
 		return null;
 	}
 
-	public String decode(String args) {
+	public String decode3DES(String args) {
 		try {
 
 			System.out.println("Token a desencriptar ==> " + new String(args.getBytes(settings.getTokenCharcode())));
@@ -197,5 +199,28 @@ public class N28TokenService {
 		// Tratamos los grupos de bytes
 
 		return "1F54393D7E5F4527";
+	}
+
+	private byte[] desEncodeCBC(byte[] key, byte[] data) {
+		try {
+			Key deskey = null;
+			DESedeKeySpec spec = new DESedeKeySpec(key);
+			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance(settings.getMaccctAlgorithm());
+			deskey = keyfactory.generateSecret(spec);
+
+			Cipher cifrador = Cipher.getInstance(settings.getMacctEncodeTransformation());
+
+			cifrador.init(Cipher.ENCRYPT_MODE, deskey);
+
+			byte[] bout = cifrador.doFinal(data);
+
+			return bout;
+
+		} catch (Exception e) {
+			System.out.println("Error en generación de MACCCT" + e);
+		}
+
+		return null;
+
 	}
 }

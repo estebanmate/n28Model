@@ -21,11 +21,20 @@ public class N28TokenSettings {
 	@Value("${n28.token.key}")
 	private String tokenKey;
 
-	@Value("${n28.mac.algorithm}")
-	private String macAlgorithm;
+	@Value("${n28.maccct.algorithm}")
+	private String maccctAlgorithm;
 
-	@Value("${n28.mac.key}")
-	private String macKey;
+	@Value("${n28.maccct.encode.transformation}")
+	private String macctEncodeTransformation;
+
+	@Value("${n28.maccct.decode.transformation}")
+	private String macctDecodeTransformation;
+
+	@Value("${n28.maccct.charcode}")
+	private String macctCharcode;
+
+	@Value("${n28.maccct.key}")
+	private String maccctKey;
 
 	public String getTokenAlgorithm() {
 		return tokenAlgorithm;
@@ -67,20 +76,44 @@ public class N28TokenSettings {
 		this.tokenKey = tokenKey;
 	}
 
-	public String getMacAlgorithm() {
-		return macAlgorithm;
+	public String getMaccctAlgorithm() {
+		return maccctAlgorithm;
 	}
 
-	public void setMacAlgorithm(String macAlgorithm) {
-		this.macAlgorithm = macAlgorithm;
+	public void setMaccctAlgorithm(String maccctAlgorithm) {
+		this.maccctAlgorithm = maccctAlgorithm;
 	}
 
-	public String getMacKey() {
-		return macKey;
+	public String getMacctEncodeTransformation() {
+		return macctEncodeTransformation;
 	}
 
-	public void setMacKey(String macKey) {
-		this.macKey = macKey;
+	public void setMacctEncodeTransformation(String macctEncodeTransformation) {
+		this.macctEncodeTransformation = macctEncodeTransformation;
+	}
+
+	public String getMacctDecodeTransformation() {
+		return macctDecodeTransformation;
+	}
+
+	public void setMacctDecodeTransformation(String macctDecodeTransformation) {
+		this.macctDecodeTransformation = macctDecodeTransformation;
+	}
+
+	public String getMacctCharcode() {
+		return macctCharcode;
+	}
+
+	public void setMacctCharcode(String macctCharcode) {
+		this.macctCharcode = macctCharcode;
+	}
+
+	public String getMaccctKey() {
+		return maccctKey;
+	}
+
+	public void setMaccctKey(String maccctKey) {
+		this.maccctKey = maccctKey;
 	}
 
 }
