@@ -21,20 +21,20 @@ public class N28TokenSettings {
 	@Value("${n28.token.key}")
 	private String tokenKey;
 
-	@Value("${n28.maccct.algorithm}")
-	private String maccctAlgorithm;
+	@Value("${n28.mac.algorithm}")
+	private String macAlgorithm;
 
-	@Value("${n28.maccct.encode.transformation}")
-	private String macctEncodeTransformation;
+	@Value("${n28.mac.encode.transformation}")
+	private String macEncodeTransformation;
 
-	@Value("${n28.maccct.decode.transformation}")
-	private String macctDecodeTransformation;
+	@Value("${n28.mac.decode.transformation}")
+	private String macDecodeTransformation;
 
-	@Value("${n28.maccct.charcode}")
-	private String macctCharcode;
+	@Value("${n28.mac.charcode}")
+	private String macCharcode;
 
-	@Value("${n28.maccct.key}")
-	private String maccctKey;
+	@Value("${n28.mac.key}")
+	private String macKey;
 
 	public String getTokenAlgorithm() {
 		return tokenAlgorithm;
@@ -76,44 +76,44 @@ public class N28TokenSettings {
 		this.tokenKey = tokenKey;
 	}
 
-	public String getMaccctAlgorithm() {
-		return maccctAlgorithm;
+	public String getMacAlgorithm() {
+		return macAlgorithm;
 	}
 
-	public void setMaccctAlgorithm(String maccctAlgorithm) {
-		this.maccctAlgorithm = maccctAlgorithm;
+	public void setMacAlgorithm(String macAlgorithm) {
+		this.macAlgorithm = macAlgorithm;
 	}
 
-	public String getMacctEncodeTransformation() {
-		return macctEncodeTransformation;
+	public String getMacEncodeTransformation() {
+		return macEncodeTransformation;
 	}
 
-	public void setMacctEncodeTransformation(String macctEncodeTransformation) {
-		this.macctEncodeTransformation = macctEncodeTransformation;
+	public void setMacEncodeTransformation(String macEncodeTransformation) {
+		this.macEncodeTransformation = macEncodeTransformation;
 	}
 
-	public String getMacctDecodeTransformation() {
-		return macctDecodeTransformation;
+	public String getMacDecodeTransformation() {
+		return macDecodeTransformation;
 	}
 
-	public void setMacctDecodeTransformation(String macctDecodeTransformation) {
-		this.macctDecodeTransformation = macctDecodeTransformation;
+	public void setMacDecodeTransformation(String macDecodeTransformation) {
+		this.macDecodeTransformation = macDecodeTransformation;
 	}
 
-	public String getMacctCharcode() {
-		return macctCharcode;
+	public String getMacCharcode() {
+		return macCharcode;
 	}
 
-	public void setMacctCharcode(String macctCharcode) {
-		this.macctCharcode = macctCharcode;
+	public void setMacCharcode(String macCharcode) {
+		this.macCharcode = macCharcode;
 	}
 
-	public String getMaccctKey() {
-		return maccctKey;
+	public String getMacKey() {
+		return macKey;
 	}
 
-	public void setMaccctKey(String maccctKey) {
-		this.maccctKey = maccctKey;
+	public void setMacKey(String macKey) {
+		this.macKey = macKey;
 	}
 
 }

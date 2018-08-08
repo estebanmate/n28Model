@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.bankia.n28.model.N28MACODE;
 import es.bankia.n28.model.N28TokenRequest;
 import es.bankia.n28.model.N28TokenResponse;
 import es.bankia.n28.service.N28TokenService;
@@ -32,7 +33,7 @@ public class N28TokenController {
     @RequestMapping(value = "get_token", method = POST)
     public ResponseEntity<N28TokenResponse> getToken(@RequestBody String TOKEN_REPLY) throws Exception {
 
-        String token = n28TokenService.encode3DES(TOKEN_REPLY);
+        String token = n28TokenService.get_Token(TOKEN_REPLY);
         N28TokenResponse n28Token = new N28TokenResponse();
         n28Token.setToken(token);
         
@@ -44,8 +45,30 @@ public class N28TokenController {
         
     }
     
+
     /**
-     * Desencripta un token enviado por CARM.
+     * Obtiene un MACODE a partir de los datos de TOKEN_REQUEST para su validación
+     *
+     * @param XMLFormat
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping(value = "get_mac", method = POST)
+    public ResponseEntity<String> get_MAC(@RequestBody N28MACODE n28Macode) throws Exception {
+
+        String mac = n28TokenService.get_MAC(n28Macode);
+         
+ 		if(null != mac && !"".equals(mac)) {
+			return new ResponseEntity<>(mac, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(mac, HttpStatus.NO_CONTENT);
+		}
+        
+        
+    }
+    
+    /**
+     * Desencripta un token enviado por CARM en la TOKEN_REQUEST.
      *
      * @param n28TokenRequest
      * @return
@@ -54,7 +77,7 @@ public class N28TokenController {
     @RequestMapping(value = "validate_token", method = POST)
     public ResponseEntity<String> getXML(@RequestBody N28TokenRequest n28TokenRequest) throws Exception {
 
-        String xmlRequest = n28TokenService.decode3DES(n28TokenRequest.getToken());
+        String xmlRequest = n28TokenService.validate_Token(n28TokenRequest.getToken());
         
 		if(null != xmlRequest && !"".equals(xmlRequest)) {
 			return new ResponseEntity<>(xmlRequest, HttpStatus.OK);

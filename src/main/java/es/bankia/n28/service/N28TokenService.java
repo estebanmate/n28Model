@@ -4,9 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
@@ -18,8 +17,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import es.bankia.n28.beans.XmlBody;
+import es.bankia.n28.model.N28MACODE;
 import es.bankia.n28.model.N28TokenSettings;
-import es.bankia.n28.constants.N28Constants;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -32,14 +31,14 @@ public class N28TokenService {
 
 	private static byte[] keyiv = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-	public String encode3DES(String args) {
+	public String get_Token(String args) {
 
 		byte[] encoding;
 
 		try {
 			encoding = Base64.getEncoder().encode(args.getBytes(settings.getTokenCharcode()));
 
-			byte[] str5 = des3EncodeCBC(settings.getTokenKey().getBytes(), keyiv, encoding);
+			byte[] str5 = encode3DES_CBC(settings.getTokenKey().getBytes(), keyiv, encoding);
 
 			byte[] encoding1 = Base64.getEncoder().encode(str5);
 
@@ -56,14 +55,14 @@ public class N28TokenService {
 		return null;
 	}
 
-	public String decode3DES(String args) {
+	public String validate_Token(String args) {
 		try {
 
 			System.out.println("Token a desencriptar ==> " + new String(args.getBytes(settings.getTokenCharcode())));
 
 			byte[] decode = Base64.getDecoder().decode(args.getBytes(settings.getTokenCharcode()));
 
-			byte[] str6 = des3DecodeCBC(settings.getTokenKey().getBytes(), keyiv, decode);
+			byte[] str6 = decode3DES_CBC(settings.getTokenKey().getBytes(), keyiv, decode);
 
 			String data = new String(str6);
 
@@ -71,10 +70,16 @@ public class N28TokenService {
 
 			System.out.println("Texto desencriptado ==>  " + new String(decode1));
 
-			System.out.println("Datos Desencriptados ==>  ");
+//			System.out.println("Datos Desencriptados ==>  ");
 
-			generaXML(new String(decode1));
+			XmlBody tokenRequestXmlBody=generaTOKEN_REQUEST_XML(new String(decode1));
 
+			// Generamos los datos mockeados de la respuesta
+			String MACCCT = generaMACCCT(tokenRequestXmlBody);
+			
+			//TODO: Generar todo el flujo de llamadas a los SNG
+			//TODO: Generar el TOKEN_REPLY
+			
 			return new String(decode1);
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
@@ -86,7 +91,22 @@ public class N28TokenService {
 
 	}
 
-	private byte[] des3EncodeCBC(byte[] key, byte[] keyiv, byte[] data) {
+	public String get_MAC(N28MACODE n28Macode) {
+
+		try {
+
+			byte[] macodeStr = generaMACODE(n28Macode);
+
+			return new String(macodeStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
+
+	private byte[] encode3DES_CBC(byte[] key, byte[] keyiv, byte[] data) {
 		try {
 			Key deskey = null;
 			DESedeKeySpec spec = new DESedeKeySpec(key);
@@ -107,7 +127,7 @@ public class N28TokenService {
 
 	}
 
-	private byte[] des3DecodeCBC(byte[] key, byte[] keyiv, byte[] data) {
+	private byte[] decode3DES_CBC(byte[] key, byte[] keyiv, byte[] data) {
 		try {
 			Key deskey = null;
 			DESedeKeySpec spec = new DESedeKeySpec(key);
@@ -129,51 +149,28 @@ public class N28TokenService {
 
 	}
 
-	private void generaXML(String cadenaXML) throws JAXBException {
+	private XmlBody generaTOKEN_REQUEST_XML(String cadenaXML) throws JAXBException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(XmlBody.class);
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		XmlBody xmlBody = (XmlBody) unmarshaller.unmarshal(new ByteArrayInputStream(cadenaXML.getBytes()));
 
-		System.out.println("ID Comunicación: " + xmlBody.getREQUEST().getCABECERA().getIDCOMUNICACION());
-		System.out.println("APLICACION/EMISOR: " + xmlBody.getREQUEST().getCABECERA().getAPLICACION() + "/"
-				+ xmlBody.getREQUEST().getCABECERA().getEMISOR());
-
-		System.out.println("URL vuelta: " + xmlBody.getREQUEST().getURLCOMUNICACION().getURLVUELTA());
-		System.out.println("URL Notificación: " + xmlBody.getREQUEST().getURLCOMUNICACION().getURLNOTIFICACION());
-
-		System.out.println("Titular de la Cuenta: " + xmlBody.getREQUEST().getLOTE().getCARGO().getTITULARCUENTA());
-		System.out.println("Importe: " + xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIMPORTEINGRESO());
-		System.out.println("MACODE: " + xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getMACODE());
-
-		// Generamos los datos mockeados de la respuesta
-		String MACCCT = generarMACCCT(xmlBody);
-//		XmlBody xmlReply = generaXmlReply(xmlBody);
+//		System.out.println("ID Comunicación: " + xmlBody.getREQUEST().getCABECERA().getIDCOMUNICACION());
+//		System.out.println("APLICACION/EMISOR: " + xmlBody.getREQUEST().getCABECERA().getAPLICACION() + "/"
+//				+ xmlBody.getREQUEST().getCABECERA().getEMISOR());
 //
-//		System.out.println("MAC_CCT: " + xmlReply.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).getMACCCT());
-
-	}
-
-	private XmlBody generaXmlReply(XmlBody xmlBody) {
-
-		// TODO: Comprobar el MACODE de la REQUEST
-		// TODO: Generar las llamadas para rellenar el REPLY
-		// TODO: Generar el Token del REPLY
-		return generaMockRespuesta(xmlBody);
-	}
-
-	private XmlBody generaMockRespuesta(XmlBody xmlBody) {
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIDUNICO("1234567890");
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setFECHAING("20180504");
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setENTIDADING("0049");
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIMPORTEING("000000045654");
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setMACCCT(generarMACCCT(xmlBody));
+//		System.out.println("URL vuelta: " + xmlBody.getREQUEST().getURLCOMUNICACION().getURLVUELTA());
+//		System.out.println("URL Notificación: " + xmlBody.getREQUEST().getURLCOMUNICACION().getURLNOTIFICACION());
+//
+//		System.out.println("Titular de la Cuenta: " + xmlBody.getREQUEST().getLOTE().getCARGO().getTITULARCUENTA());
+//		System.out.println("Importe: " + xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIMPORTEINGRESO());
+//		System.out.println("MACODE: " + xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getMACODE());
 
 		return xmlBody;
 	}
 
-	private String generarMACCCT(XmlBody xmlBody) {
+	private String generaMACCCT(XmlBody xmlBody) {
 		StringBuilder CADENA_ORIGEN = new StringBuilder()
 				.append(xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIDUNICO())
 				.append(String.format("%013d",
@@ -201,26 +198,51 @@ public class N28TokenService {
 		return "1F54393D7E5F4527";
 	}
 
-	private byte[] desEncodeCBC(byte[] key, byte[] data) {
+	private byte[] generaMACODE(N28MACODE n28Macode) {
+		// TODO: Convertir el n28Macode a una cadena
+		byte[] cadena = n28Macode.toString().getBytes();
+
+		return encodeDES_CBC(settings.getMacKey().getBytes(), cadena);
+	}
+
+	private byte[] encodeDES_CBC(byte[] key, byte[] data) {
 		try {
 			Key deskey = null;
-			DESedeKeySpec spec = new DESedeKeySpec(key);
-			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance(settings.getMaccctAlgorithm());
+			DESKeySpec spec = new DESKeySpec(key);
+			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance(settings.getMacAlgorithm());
 			deskey = keyfactory.generateSecret(spec);
 
-			Cipher cifrador = Cipher.getInstance(settings.getMacctEncodeTransformation());
+			Cipher cipher = Cipher.getInstance(settings.getMacEncodeTransformation());
 
-			cifrador.init(Cipher.ENCRYPT_MODE, deskey);
+			cipher.init(Cipher.ENCRYPT_MODE, deskey);
 
-			byte[] bout = cifrador.doFinal(data);
+			byte[] bout = cipher.doFinal(data);
 
 			return bout;
 
 		} catch (Exception e) {
-			System.out.println("Error en generación de MACCCT" + e);
+			System.out.println("Error en generación de MAC" + e);
 		}
 
 		return null;
 
+	}
+
+	private XmlBody generaXmlReply(XmlBody xmlBody) {
+
+		// TODO: Comprobar el MACODE de la REQUEST
+		// TODO: Generar las llamadas para rellenar el REPLY
+		// TODO: Generar el Token del REPLY
+		return generaMockRespuesta(xmlBody);
+	}
+
+	private XmlBody generaMockRespuesta(XmlBody xmlBody) {
+		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIDUNICO("1234567890");
+		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setFECHAING("20180504");
+		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setENTIDADING("0049");
+		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIMPORTEING("000000045654");
+		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setMACCCT(generaMACCCT(xmlBody));
+
+		return xmlBody;
 	}
 }
