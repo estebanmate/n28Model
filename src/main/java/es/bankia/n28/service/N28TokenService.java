@@ -3,7 +3,11 @@ package es.bankia.n28.service;
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
+import java.security.SecureRandom;
+
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.DESedeKeySpec;
@@ -30,6 +34,7 @@ public class N28TokenService {
 	public N28TokenSettings settings;
 
 	private static byte[] keyiv = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	static IvParameterSpec iv;
 
 	public String get_Token(String args) {
 
@@ -72,14 +77,14 @@ public class N28TokenService {
 
 //			System.out.println("Datos Desencriptados ==>  ");
 
-			XmlBody tokenRequestXmlBody=generaTOKEN_REQUEST_XML(new String(decode1));
+			XmlBody tokenRequestXmlBody = generaTOKEN_REQUEST_XML(new String(decode1));
 
 			// Generamos los datos mockeados de la respuesta
 			String MACCCT = generaMACCCT(tokenRequestXmlBody);
-			
-			//TODO: Generar todo el flujo de llamadas a los SNG
-			//TODO: Generar el TOKEN_REPLY
-			
+
+			// TODO: Generar todo el flujo de llamadas a los SNG
+			// TODO: Generar el TOKEN_REPLY
+
 			return new String(decode1);
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
@@ -106,6 +111,18 @@ public class N28TokenService {
 
 	}
 
+	public String validate_MAC(String MAC) {
+
+		try {
+			return new String(verificaMACODE(MAC));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
+	
 	private byte[] encode3DES_CBC(byte[] key, byte[] keyiv, byte[] data) {
 		try {
 			Key deskey = null;
@@ -193,28 +210,41 @@ public class N28TokenService {
 			}
 		}
 
-		// Tratamos los grupos de bytes
+		// TODO: Tratar los grupos de bytes
 
 		return "1F54393D7E5F4527";
 	}
 
 	private byte[] generaMACODE(N28MACODE n28Macode) {
-		// TODO: Convertir el n28Macode a una cadena
-		byte[] cadena = n28Macode.toString().getBytes();
 
-		return encodeDES_CBC(settings.getMacKey().getBytes(), cadena);
+		String cadena = n28Macode.toString();
+
+		return encodeDES_CBC(settings.getMacKey().getBytes(), cadena.getBytes());
 	}
 
+	private byte[] verificaMACODE(String MAC) throws Exception {
+
+		return decodeDES_CBC(settings.getMacKey().getBytes(), MAC.getBytes());
+	}
+	
 	private byte[] encodeDES_CBC(byte[] key, byte[] data) {
 		try {
-			Key deskey = null;
-			DESKeySpec spec = new DESKeySpec(key);
-			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance(settings.getMacAlgorithm());
-			deskey = keyfactory.generateSecret(spec);
+			// create a binary key from the argument key
+			SecureRandom sr = new SecureRandom(key);
+			KeyGenerator kg = KeyGenerator.getInstance(settings.getMacAlgorithm());
+			kg.init(sr);
+			SecretKey sk = kg.generateKey();
 
+			// create an instance of cipher
 			Cipher cipher = Cipher.getInstance(settings.getMacEncodeTransformation());
 
-			cipher.init(Cipher.ENCRYPT_MODE, deskey);
+			// generate an initialization vector (IV)
+			SecureRandom secureRandom = new SecureRandom();
+			byte[] ivspec = new byte[cipher.getBlockSize()];
+			secureRandom.nextBytes(ivspec);
+			iv = new IvParameterSpec(ivspec);
+
+			cipher.init(Cipher.ENCRYPT_MODE, sk, iv);
 
 			byte[] bout = cipher.doFinal(data);
 
@@ -226,6 +256,23 @@ public class N28TokenService {
 
 		return null;
 
+	}
+
+	private byte[] decodeDES_CBC(byte[] key, byte[] data) throws Exception {
+		// create a binary key from the argument key (seed)
+		SecureRandom sr = new SecureRandom(key);
+		KeyGenerator kg = KeyGenerator.getInstance(settings.getMacAlgorithm());
+		kg.init(sr);
+		SecretKey sk = kg.generateKey();
+
+		// do the decryption with that key
+		Cipher cipher = Cipher.getInstance(settings.getMacDecodeTransformation());
+
+		cipher.init(Cipher.DECRYPT_MODE, sk, iv);
+
+		byte[] decrypted = cipher.doFinal(data);
+
+		return decrypted;
 	}
 
 	private XmlBody generaXmlReply(XmlBody xmlBody) {

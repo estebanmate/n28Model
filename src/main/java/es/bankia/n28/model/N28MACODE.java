@@ -92,4 +92,9 @@ public class N28MACODE {
 		this.hechoImponible = hechoImponible;
 	}
 
+	@Override
+	public String toString() {
+		return titularCuenta +  idUnico +  importeIngreso +  cifContribuyente + nombreContribuyente + apellido1Contribuyente
+				+ apellido2Contribuyente + oficinaLiquidadora + hechoImponible;
+	}
 }
