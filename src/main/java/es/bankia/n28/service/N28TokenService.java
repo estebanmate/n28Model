@@ -98,11 +98,22 @@ public class N28TokenService {
 
 	public String get_MAC(N28MACODE n28Macode) {
 
+		byte[] encoding;
+
 		try {
 
-			byte[] macodeStr = generaMACODE(n28Macode);
+			encoding = Base64.getEncoder().encode(n28Macode.toString().getBytes(settings.getMacCharcode()));
 
-			return new String(macodeStr);
+			byte[] macodeStr = encodeDES_CBC(settings.getMacKey().getBytes(), encoding);
+
+			byte[] mac = Base64.getEncoder().encode(macodeStr);
+
+			System.out.println("Texto a encriptar ==>  " + n28Macode.toString());
+
+			System.out.println("MAC ==> " + new String(mac));
+
+			return new String(mac);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,7 +133,7 @@ public class N28TokenService {
 		return null;
 
 	}
-	
+
 	private byte[] encode3DES_CBC(byte[] key, byte[] keyiv, byte[] data) {
 		try {
 			Key deskey = null;
@@ -215,18 +226,12 @@ public class N28TokenService {
 		return "1F54393D7E5F4527";
 	}
 
-	private byte[] generaMACODE(N28MACODE n28Macode) {
-
-		String cadena = n28Macode.toString();
-
-		return encodeDES_CBC(settings.getMacKey().getBytes(), cadena.getBytes());
-	}
 
 	private byte[] verificaMACODE(String MAC) throws Exception {
 
 		return decodeDES_CBC(settings.getMacKey().getBytes(), MAC.getBytes());
 	}
-	
+
 	private byte[] encodeDES_CBC(byte[] key, byte[] data) {
 		try {
 			// create a binary key from the argument key
