@@ -34,14 +34,11 @@ public class N28TokenService {
 	public N28TokenSettings settings;
 
 	private static byte[] keyiv = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-	static IvParameterSpec iv;
 
 	public String get_Token(String args) {
 
-		byte[] encoding;
-
 		try {
-			encoding = Base64.getEncoder().encode(args.getBytes(settings.getTokenCharcode()));
+			byte[] encoding = Base64.getEncoder().encode(args.getBytes(settings.getTokenCharcode()));
 
 			byte[] str5 = encode3DES_CBC(settings.getTokenKey().getBytes(), keyiv, encoding);
 
@@ -75,7 +72,7 @@ public class N28TokenService {
 
 			System.out.println("Texto desencriptado ==>  " + new String(decode1));
 
-//			System.out.println("Datos Desencriptados ==>  ");
+			System.out.println("Datos Desencriptados ==>  ");
 
 			XmlBody tokenRequestXmlBody = generaTOKEN_REQUEST_XML(new String(decode1));
 
@@ -98,17 +95,15 @@ public class N28TokenService {
 
 	public String get_MAC(N28MACODE n28Macode) {
 
-		byte[] encoding;
-
 		try {
 
-			encoding = Base64.getEncoder().encode(n28Macode.toString().getBytes(settings.getMacCharcode()));
+			System.out.println("Texto a encriptar ==>  " + n28Macode.toString());
+
+			byte[] encoding = Base64.getEncoder().encode(n28Macode.toString().getBytes(settings.getMacCharcode()));
 
 			byte[] macodeStr = encodeDES_CBC(settings.getMacKey().getBytes(), encoding);
 
 			byte[] mac = Base64.getEncoder().encode(macodeStr);
-
-			System.out.println("Texto a encriptar ==>  " + n28Macode.toString());
 
 			System.out.println("MAC ==> " + new String(mac));
 
@@ -122,10 +117,26 @@ public class N28TokenService {
 
 	}
 
-	public String validate_MAC(String MAC) {
-
+	public String validate_MAC(String args) {
 		try {
-			return new String(verificaMACODE(MAC));
+
+			System.out.println("MAC a desencriptar ==> " + new String(args.getBytes(settings.getMacCharcode())));
+
+			byte[] decode = Base64.getDecoder().decode(args.getBytes(settings.getMacCharcode()));
+
+			byte[] str6 = decodeDES_CBC(settings.getMacKey().getBytes(), decode);
+
+			String data = new String(str6);
+
+			byte[] decode1 = Base64.getDecoder().decode(data.trim().getBytes(settings.getMacCharcode()));
+
+			System.out.println("Texto desencriptado ==>  " + new String(decode1));
+
+			return new String(decode1);
+		} catch (JAXBException e1) {
+			e1.printStackTrace();
+		} catch (UnsupportedEncodingException e2) {
+			e2.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -226,12 +237,6 @@ public class N28TokenService {
 		return "1F54393D7E5F4527";
 	}
 
-
-	private byte[] verificaMACODE(String MAC) throws Exception {
-
-		return decodeDES_CBC(settings.getMacKey().getBytes(), MAC.getBytes());
-	}
-
 	private byte[] encodeDES_CBC(byte[] key, byte[] data) {
 		try {
 			// create a binary key from the argument key
@@ -244,11 +249,10 @@ public class N28TokenService {
 			Cipher cipher = Cipher.getInstance(settings.getMacEncodeTransformation());
 
 			// generate an initialization vector (IV)
-			SecureRandom secureRandom = new SecureRandom();
 			byte[] ivspec = new byte[cipher.getBlockSize()];
-			secureRandom.nextBytes(ivspec);
-			iv = new IvParameterSpec(ivspec);
-
+			sr.nextBytes(ivspec);
+			IvParameterSpec iv = new IvParameterSpec(ivspec);
+			
 			cipher.init(Cipher.ENCRYPT_MODE, sk, iv);
 
 			byte[] bout = cipher.doFinal(data);
@@ -272,6 +276,11 @@ public class N28TokenService {
 
 		// do the decryption with that key
 		Cipher cipher = Cipher.getInstance(settings.getMacDecodeTransformation());
+
+		// generate an initialization vector (IV)
+		byte[] ivspec = new byte[cipher.getBlockSize()];
+		sr.nextBytes(ivspec);
+		IvParameterSpec iv = new IvParameterSpec(ivspec);
 
 		cipher.init(Cipher.DECRYPT_MODE, sk, iv);
 
