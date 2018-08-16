@@ -33,6 +33,9 @@ public class N28TokenService {
 	@Autowired
 	public N28TokenSettings settings;
 
+	@Autowired
+	public N28MacService n28MacService;
+
 	private static byte[] keyiv = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 	public String get_Token(String args) {
@@ -72,12 +75,10 @@ public class N28TokenService {
 
 			System.out.println("Texto desencriptado ==>  " + new String(decode1));
 
-			System.out.println("Datos Desencriptados ==>  ");
-
 			XmlBody tokenRequestXmlBody = generaTOKEN_REQUEST_XML(new String(decode1));
 
 			// Generamos los datos mockeados de la respuesta
-			String MACCCT = generaMACCCT(tokenRequestXmlBody);
+			String MACCCT = n28MacService.get_CCTMAC(tokenRequestXmlBody);
 
 			// TODO: Generar todo el flujo de llamadas a los SNG
 			// TODO: Generar el TOKEN_REPLY
@@ -87,58 +88,6 @@ public class N28TokenService {
 			e1.printStackTrace();
 		} catch (UnsupportedEncodingException e2) {
 			e2.printStackTrace();
-		}
-
-		return null;
-
-	}
-
-	public String get_MAC(N28MACODE n28Macode) {
-
-		try {
-
-			System.out.println("Texto a encriptar ==>  " + n28Macode.toString());
-
-			byte[] encoding = Base64.getEncoder().encode(n28Macode.toString().getBytes(settings.getMacCharcode()));
-
-			byte[] macodeStr = encodeDES_CBC(settings.getMacKey().getBytes(), encoding);
-
-			byte[] mac = Base64.getEncoder().encode(macodeStr);
-
-			System.out.println("MAC ==> " + new String(mac));
-
-			return new String(mac);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-
-	}
-
-	public String validate_MAC(String args) {
-		try {
-
-			System.out.println("MAC a desencriptar ==> " + new String(args.getBytes(settings.getMacCharcode())));
-
-			byte[] decode = Base64.getDecoder().decode(args.getBytes(settings.getMacCharcode()));
-
-			byte[] str6 = decodeDES_CBC(settings.getMacKey().getBytes(), decode);
-
-			String data = new String(str6);
-
-			byte[] decode1 = Base64.getDecoder().decode(data.trim().getBytes(settings.getMacCharcode()));
-
-			System.out.println("Texto desencriptado ==>  " + new String(decode1));
-
-			return new String(decode1);
-		} catch (JAXBException e1) {
-			e1.printStackTrace();
-		} catch (UnsupportedEncodingException e2) {
-			e2.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 		return null;
@@ -209,86 +158,6 @@ public class N28TokenService {
 		return xmlBody;
 	}
 
-	private String generaMACCCT(XmlBody xmlBody) {
-		StringBuilder CADENA_ORIGEN = new StringBuilder()
-				.append(xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIDUNICO())
-				.append(String.format("%013d",
-						Integer.parseInt(
-								xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIMPORTEINGRESO())))
-				.append(xmlBody.getREQUEST().getCABECERA().getFECHA())
-				.append(xmlBody.getREQUEST().getLOTE().getCARGO().getCUENTACARGO().getENTIDAD());
-
-		ArrayList<String> grupos = new ArrayList<String>(7);
-
-		// Generamos los grupos de bytes
-		for (int grupo = 0; grupo < 7; grupo++) {
-			int inicio = grupo * 8;
-			if (grupo == 6) {
-				String cadenaEntrada = CADENA_ORIGEN.substring(inicio).trim();
-				grupos.add(grupo, String.format("%1$-8s", cadenaEntrada).replace(" ", "0"));
-			} else {
-				String cadenaEntrada = CADENA_ORIGEN.substring(inicio, inicio + 8).trim();
-				grupos.add(grupo, cadenaEntrada);
-			}
-		}
-
-		// TODO: Tratar los grupos de bytes
-
-		return "1F54393D7E5F4527";
-	}
-
-	private byte[] encodeDES_CBC(byte[] key, byte[] data) {
-		try {
-			// create a binary key from the argument key
-			SecureRandom sr = new SecureRandom(key);
-			KeyGenerator kg = KeyGenerator.getInstance(settings.getMacAlgorithm());
-			kg.init(sr);
-			SecretKey sk = kg.generateKey();
-
-			// create an instance of cipher
-			Cipher cipher = Cipher.getInstance(settings.getMacEncodeTransformation());
-
-			// generate an initialization vector (IV)
-			byte[] ivspec = new byte[cipher.getBlockSize()];
-			sr.nextBytes(ivspec);
-			IvParameterSpec iv = new IvParameterSpec(ivspec);
-			
-			cipher.init(Cipher.ENCRYPT_MODE, sk, iv);
-
-			byte[] bout = cipher.doFinal(data);
-
-			return bout;
-
-		} catch (Exception e) {
-			System.out.println("Error en generación de MAC" + e);
-		}
-
-		return null;
-
-	}
-
-	private byte[] decodeDES_CBC(byte[] key, byte[] data) throws Exception {
-		// create a binary key from the argument key (seed)
-		SecureRandom sr = new SecureRandom(key);
-		KeyGenerator kg = KeyGenerator.getInstance(settings.getMacAlgorithm());
-		kg.init(sr);
-		SecretKey sk = kg.generateKey();
-
-		// do the decryption with that key
-		Cipher cipher = Cipher.getInstance(settings.getMacDecodeTransformation());
-
-		// generate an initialization vector (IV)
-		byte[] ivspec = new byte[cipher.getBlockSize()];
-		sr.nextBytes(ivspec);
-		IvParameterSpec iv = new IvParameterSpec(ivspec);
-
-		cipher.init(Cipher.DECRYPT_MODE, sk, iv);
-
-		byte[] decrypted = cipher.doFinal(data);
-
-		return decrypted;
-	}
-
 	private XmlBody generaXmlReply(XmlBody xmlBody) {
 
 		// TODO: Comprobar el MACODE de la REQUEST
@@ -302,7 +171,7 @@ public class N28TokenService {
 		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setFECHAING("20180504");
 		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setENTIDADING("0049");
 		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIMPORTEING("000000045654");
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setMACCCT(generaMACCCT(xmlBody));
+		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setMACCCT(n28MacService.get_CCTMAC(xmlBody));
 
 		return xmlBody;
 	}

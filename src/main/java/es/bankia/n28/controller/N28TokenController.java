@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.bankia.n28.model.N28MACODE;
 import es.bankia.n28.model.N28TokenRequest;
 import es.bankia.n28.model.N28TokenResponse;
+import es.bankia.n28.service.N28MacService;
 import es.bankia.n28.service.N28TokenService;
 
 @RestController
@@ -20,6 +21,9 @@ public class N28TokenController {
 
 	@Autowired
 	private N28TokenService n28TokenService;
+
+	@Autowired
+	private N28MacService n28MacService;
 
 	/**
 	 * Encripta un token para ser enviado a la CARM.
@@ -53,10 +57,9 @@ public class N28TokenController {
 	@RequestMapping(value = "get_mac", method = POST)
 	public ResponseEntity<String> get_MAC(@RequestBody N28MACODE n28Macode) throws Exception {
 
-		String mac = n28TokenService.get_MAC(n28Macode);
+		String mac = n28MacService.get_MAC(n28Macode);
 
 		if (null != mac && !"".equals(mac)) {
-//			System.out.println("MAC: " + mac);
 			return new ResponseEntity<>(mac, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(mac, HttpStatus.NO_CONTENT);
@@ -85,7 +88,7 @@ public class N28TokenController {
 	}
 
 	/**
-	 * Desencripta un MAC 
+	 * Desencripta un MAC
 	 *
 	 * @param n28TokenRequest
 	 * @return
@@ -94,7 +97,7 @@ public class N28TokenController {
 	@RequestMapping(value = "validate_mac", method = POST)
 	public ResponseEntity<String> validate_MAC(@RequestBody String MAC) throws Exception {
 
-		String xmlRequest = n28TokenService.validate_MAC(MAC);
+		String xmlRequest = n28MacService.validate_MAC(MAC);
 
 		if (null != xmlRequest && !"".equals(xmlRequest)) {
 			return new ResponseEntity<>(xmlRequest, HttpStatus.OK);
@@ -103,5 +106,5 @@ public class N28TokenController {
 		}
 
 	}
-	
+
 }
