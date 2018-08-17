@@ -45,7 +45,31 @@ public class N28MacService {
 
 			byte[] mac = Base64.getEncoder().encode(macodeStr);
 
-			System.out.println("MAC ==> " + new String(mac));
+			System.out.println("MAC ==> " + new String(mac.toString()));
+
+			return new String(mac);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
+
+	public String get_ByteMAC(String args) {
+
+		try {
+
+			System.out.println("Byte a encriptar ==>  " + args);
+
+			byte[] encoding = Base64.getEncoder().encode(args.getBytes(settings.getMacCharcode()));
+
+			byte[] macodeStr = encodeDES_CBC(settings.getMacKey().getBytes(), encoding);
+
+			byte[] mac = Base64.getEncoder().encode(macodeStr);
+
+			System.out.println("MAC Byte ==> " + new String(mac.toString()));
 
 			return new String(mac);
 
@@ -108,9 +132,16 @@ public class N28MacService {
 			}
 		}
 
+		StringBuilder CCTMACODE= new StringBuilder();
+
+		// Generamos los grupos de bytes
+		for (int grupo = 0; grupo < 7; grupo++) {
+			CCTMACODE.append(get_ByteMAC(grupos.get(grupo)));
+		}
 		// TODO: Tratar los grupos de bytes
 
-		return "1F54393D7E5F4527";
+		return CCTMACODE.toString();
+//		return "1F54393D7E5F4527";
 	}
 
 	private byte[] encodeDES_CBC(byte[] key, byte[] data) {
