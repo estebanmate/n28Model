@@ -1,10 +1,10 @@
-package es.bankia.n28.model;
+package es.bankia.n28.cifrado.model;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class N28TokenSettings {
+public class N28ModelSettings {
 
 	@Value("${n28.token.algorithm}")
 	private String tokenAlgorithm;

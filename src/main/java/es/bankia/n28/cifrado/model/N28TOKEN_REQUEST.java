@@ -1,14 +1,14 @@
-package es.bankia.n28.model;
+package es.bankia.n28.cifrado.model;
 
 /**
- * API model for the authentication token.
+ * API model for the request token.
  *
  */
-public class N28TokenRequest {
+public class N28TOKEN_REQUEST {
 
     private String token;
 
-    public N28TokenRequest() {
+    public N28TOKEN_REQUEST() {
 
     }
 

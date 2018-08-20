@@ -1,4 +1,4 @@
-package es.bankia.n28.exception;
+package es.bankia.n28.cifrado.exception;
 
 /**
  * Thrown if errors occur during the token encrypt/decrypt process.

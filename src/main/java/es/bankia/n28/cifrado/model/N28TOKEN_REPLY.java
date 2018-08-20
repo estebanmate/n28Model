@@ -1,13 +1,13 @@
-package es.bankia.n28.model;
+package es.bankia.n28.cifrado.model;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class N28TokenResponse {
+public class N28TOKEN_REPLY {
 
 	   private String token;
 
-	    public N28TokenResponse() {
+	    public N28TOKEN_REPLY() {
 	    }
 
 	    public String getToken() {

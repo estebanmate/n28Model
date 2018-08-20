@@ -1,15 +1,11 @@
-package es.bankia.n28.service;
+package es.bankia.n28.cifrado.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Key;
-import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
@@ -20,18 +16,16 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import es.bankia.n28.beans.XmlBody;
-import es.bankia.n28.model.N28MACODE;
-import es.bankia.n28.model.N28TokenSettings;
+import es.bankia.n28.cifrado.beans.XmlBody;
+import es.bankia.n28.cifrado.model.N28ModelSettings;
 
-import java.util.ArrayList;
 import java.util.Base64;
 
 @Service
 public class N28TokenService {
 
 	@Autowired
-	public N28TokenSettings settings;
+	public N28ModelSettings settings;
 
 	@Autowired
 	public N28MacService n28MacService;

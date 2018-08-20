@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.bankia.n28.model.N28MACODE;
-import es.bankia.n28.model.N28TokenRequest;
-import es.bankia.n28.model.N28TokenResponse;
-import es.bankia.n28.service.N28MacService;
-import es.bankia.n28.service.N28TokenService;
+import es.bankia.n28.cifrado.model.N28MACODE;
+import es.bankia.n28.cifrado.model.N28TOKEN_REQUEST;
+import es.bankia.n28.cifrado.model.N28TOKEN_REPLY;
+import es.bankia.n28.cifrado.service.N28MacService;
+import es.bankia.n28.cifrado.service.N28TokenService;
 
 @RestController
 @RequestMapping("n28")
-public class N28TokenController {
+public class N28CifradoController {
 
 	@Autowired
 	private N28TokenService n28TokenService;
@@ -33,10 +33,10 @@ public class N28TokenController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "get_token", method = POST)
-	public ResponseEntity<N28TokenResponse> get_Token(@RequestBody String TOKEN_REPLY) throws Exception {
+	public ResponseEntity<N28TOKEN_REPLY> get_Token(@RequestBody String TOKEN_REPLY) throws Exception {
 
 		String token = n28TokenService.get_Token(TOKEN_REPLY);
-		N28TokenResponse n28Token = new N28TokenResponse();
+		N28TOKEN_REPLY n28Token = new N28TOKEN_REPLY();
 		n28Token.setToken(token);
 
 		if (null != n28Token && null != n28Token.getToken()) {
@@ -75,7 +75,7 @@ public class N28TokenController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "validate_token", method = POST)
-	public ResponseEntity<String> validate_Toke(@RequestBody N28TokenRequest n28TokenRequest) throws Exception {
+	public ResponseEntity<String> validate_Toke(@RequestBody N28TOKEN_REQUEST n28TokenRequest) throws Exception {
 
 		String xmlRequest = n28TokenService.validate_Token(n28TokenRequest.getToken());
 

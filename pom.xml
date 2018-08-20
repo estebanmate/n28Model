@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>es.bankia.n28</groupId>
-	<artifactId>n28Token</artifactId>
+	<artifactId>n28Model</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>n28Token</name>
-	<description>Project to encrypt/decrypt TOKEN_REQUEST and TOKEN_REPLY in N28 Project</description>
+	<name>n28Model</name>
+	<description>Project to N28 Model payment</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

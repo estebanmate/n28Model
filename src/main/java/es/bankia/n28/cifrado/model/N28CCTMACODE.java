@@ -1,4 +1,4 @@
-package es.bankia.n28.model;
+package es.bankia.n28.cifrado.model;
 
 /**
  * API model for the CCT MACODE.

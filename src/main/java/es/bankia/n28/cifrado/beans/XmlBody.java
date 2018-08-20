@@ -6,7 +6,7 @@
 //
 
 
-package es.bankia.n28.beans;
+package es.bankia.n28.cifrado.beans;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

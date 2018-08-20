@@ -1,6 +1,6 @@
-package es.bankia.n28.constants;
+package es.bankia.n28.cifrado.constants;
 
-public class N28Constants {
+public class N28CifradoConstants {
 
 	public static String N28_VALIDACION_CCT_OK="E00";
 	public static String N28_VALIDACION_CCT_KO="E01";
