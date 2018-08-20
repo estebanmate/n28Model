@@ -37,7 +37,7 @@ public class N28MacService {
 
 			byte[] mac = Base64.getEncoder().encode(macodeStr);
 
-			System.out.println("MAC ==> " + new String(mac.toString()));
+			System.out.println("MAC ==> " + new String(mac));
 
 			return new String(mac);
 
@@ -61,7 +61,7 @@ public class N28MacService {
 
 			byte[] mac = Base64.getEncoder().encode(macodeStr);
 
-			System.out.println("MAC Byte ==> " + new String(mac.toString()));
+			System.out.println("MAC Byte ==> " + new String(mac));
 
 			return new String(mac);
 
