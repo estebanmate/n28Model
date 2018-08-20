@@ -134,7 +134,6 @@ public class N28MacService {
 		// TODO: Tratar los grupos de bytes
 
 		return CCTMACODE.toString();
-//		return "1F54393D7E5F4527";
 	}
 
 	private byte[] encodeDES_CBC(byte[] key, byte[] data) {
