@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.bankia.n28.cifrado.model.N28CCTMACODE;
 import es.bankia.n28.cifrado.model.N28MACODE;
 import es.bankia.n28.cifrado.model.N28TOKEN_REQUEST;
 import es.bankia.n28.cifrado.model.N28TOKEN_REPLY;
@@ -67,6 +68,26 @@ public class N28CifradoController {
 
 	}
 
+	/**
+	 * Obtiene un MACODE a partir de los datos de TOKEN_REQUEST para su validación
+	 *
+	 * @param XMLFormat
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "get_cctmac", method = POST)
+	public ResponseEntity<String> get_CCTMAC(@RequestBody N28CCTMACODE n28CCTMacode) throws Exception {
+
+		String mac = n28MacService.get_CCTMAC(n28CCTMacode);
+
+		if (null != mac && !"".equals(mac)) {
+			return new ResponseEntity<>(mac, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(mac, HttpStatus.NO_CONTENT);
+		}
+
+	}
+	
 	/**
 	 * Desencripta un token enviado por CARM en la TOKEN_REQUEST.
 	 *

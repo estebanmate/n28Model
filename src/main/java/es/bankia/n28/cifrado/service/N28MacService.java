@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.bankia.n28.cifrado.beans.XmlBody;
+import es.bankia.n28.cifrado.model.N28CCTMACODE;
 import es.bankia.n28.cifrado.model.N28MACODE;
 import es.bankia.n28.cifrado.model.N28ModelSettings;
 
@@ -101,14 +102,14 @@ public class N28MacService {
 
 	}
 
-	public String get_CCTMAC(XmlBody xmlBody) {
+	public String get_CCTMAC(N28CCTMACODE n28CCTMacode) {
 		StringBuilder CADENA_ORIGEN = new StringBuilder()
-				.append(xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIDUNICO())
+				.append(n28CCTMacode.getN28())
 				.append(String.format("%013d",
 						Integer.parseInt(
-								xmlBody.getREQUEST().getLOTE().getDETALLEINGRESO().get(0).getIMPORTEINGRESO())))
-				.append(xmlBody.getREQUEST().getCABECERA().getFECHA())
-				.append(xmlBody.getREQUEST().getLOTE().getCARGO().getCUENTACARGO().getENTIDAD());
+								n28CCTMacode.getImporteIngreso())))
+				.append(n28CCTMacode.getFechaIngreso())
+				.append(n28CCTMacode.getEntidad());
 
 		ArrayList<String> grupos = new ArrayList<String>(7);
 

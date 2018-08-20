@@ -72,7 +72,7 @@ public class N28TokenService {
 			XmlBody tokenRequestXmlBody = generaTOKEN_REQUEST_XML(new String(decode1));
 
 			// Generamos los datos mockeados de la respuesta
-			String MACCCT = n28MacService.get_CCTMAC(tokenRequestXmlBody);
+//			String MACCCT = n28MacService.get_CCTMAC(tokenRequestXmlBody);
 
 			// TODO: Generar todo el flujo de llamadas a los SNG
 			// TODO: Generar el TOKEN_REPLY
@@ -152,21 +152,21 @@ public class N28TokenService {
 		return xmlBody;
 	}
 
-	private XmlBody generaXmlReply(XmlBody xmlBody) {
-
-		// TODO: Comprobar el MACODE de la REQUEST
-		// TODO: Generar las llamadas para rellenar el REPLY
-		// TODO: Generar el Token del REPLY
-		return generaMockRespuesta(xmlBody);
-	}
-
-	private XmlBody generaMockRespuesta(XmlBody xmlBody) {
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIDUNICO("1234567890");
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setFECHAING("20180504");
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setENTIDADING("0049");
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIMPORTEING("000000045654");
-		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setMACCCT(n28MacService.get_CCTMAC(xmlBody));
-
-		return xmlBody;
-	}
+//	private XmlBody generaXmlReply(XmlBody xmlBody) {
+//
+//		// TODO: Comprobar el MACODE de la REQUEST
+//		// TODO: Generar las llamadas para rellenar el REPLY
+//		// TODO: Generar el Token del REPLY
+//		return generaMockRespuesta(xmlBody);
+//	}
+//
+//	private XmlBody generaMockRespuesta(XmlBody xmlBody) {
+//		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIDUNICO("1234567890");
+//		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setFECHAING("20180504");
+//		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setENTIDADING("0049");
+//		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setIMPORTEING("000000045654");
+//		xmlBody.getREPLY().getRESPUESTALOTE().getDETALLECARGO().get(0).setMACCCT(n28MacService.get_CCTMAC(xmlBody));
+//
+//		return xmlBody;
+//	}
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="es.bankia.n28.cifrado.model.N28TOKEN_REPLY" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/cifrado/model/N28TOKEN_REPLY.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="128" x="756" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="es.bankia.n28.cifrado.model.N28TOKEN_REQUEST" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/cifrado/model/N28TOKEN_REQUEST.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="135" width="146" x="319" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="es.bankia.n28.cifrado.model.N28CCTMACODE" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/cifrado/model/N28CCTMACODE.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="315" width="171" x="924" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="es.bankia.n28.cifrado.model.N28ModelSettings" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/cifrado/model/N28ModelSettings.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="621" width="238" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="es.bankia.n28.cifrado.model.N28MACODE" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/cifrado/model/N28MACODE.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="585" width="211" x="505" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
