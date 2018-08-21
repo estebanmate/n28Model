@@ -54,7 +54,7 @@ public class N28MacService {
 
 		try {
 
-			System.out.println("Byte a encriptar ==>  " + args);
+			//System.out.println("Byte a encriptar ==>  " + args);
 
 			byte[] encoding = Base64.getEncoder().encode(args.getBytes(settings.getMacCharcode()));
 
@@ -62,7 +62,7 @@ public class N28MacService {
 
 			byte[] mac = Base64.getEncoder().encode(macodeStr);
 
-			System.out.println("MAC Byte ==> " + new String(mac));
+			//System.out.println("MAC Byte ==> " + new String(mac));
 
 			return new String(mac);
 
@@ -103,37 +103,53 @@ public class N28MacService {
 	}
 
 	public String get_CCTMAC(N28CCTMACODE n28CCTMacode) {
-		StringBuilder CADENA_ORIGEN = new StringBuilder()
-				.append(n28CCTMacode.getN28())
-				.append(String.format("%013d",
-						Integer.parseInt(
-								n28CCTMacode.getImporteIngreso())))
-				.append(n28CCTMacode.getFechaIngreso())
-				.append(n28CCTMacode.getEntidad());
+		StringBuilder CADENA_ORIGEN = new StringBuilder().append(n28CCTMacode.getN28())
+				.append(String.format("%013d", Integer.parseInt(n28CCTMacode.getImporteIngreso())))
+				.append(n28CCTMacode.getFechaIngreso()).append(n28CCTMacode.getEntidad());
 
-		ArrayList<String> grupos = new ArrayList<String>(7);
+		ArrayList<byte[]> grupos = new ArrayList<byte[]>(7);
 
 		// Generamos los grupos de bytes
 		for (int grupo = 0; grupo < 7; grupo++) {
 			int inicio = grupo * 8;
 			if (grupo == 6) {
 				String cadenaEntrada = CADENA_ORIGEN.substring(inicio).trim();
-				grupos.add(grupo, String.format("%1$-8s", cadenaEntrada).replace(" ", "0"));
+				grupos.add(grupo, String.format("%1$-8s", cadenaEntrada).replace(" ", "0").getBytes());
 			} else {
 				String cadenaEntrada = CADENA_ORIGEN.substring(inicio, inicio + 8).trim();
-				grupos.add(grupo, cadenaEntrada);
+				grupos.add(grupo, cadenaEntrada.getBytes());
 			}
 		}
 
-		StringBuilder CCTMACODE= new StringBuilder();
+		// Tratamos los grupos de bytes con el XOR
+		byte[] E1 = grupos.get(0);
+		byte[] S1 = get_ByteMAC(new String(E1)).getBytes();
+		byte[] S1XORD2 = xor(S1, grupos.get(1));
 
-		// Generamos los grupos de bytes
-		for (int grupo = 0; grupo < 7; grupo++) {
-			CCTMACODE.append(get_ByteMAC(grupos.get(grupo)));
-		}
-		// TODO: Tratar los grupos de bytes
+		byte[] E2 = S1XORD2;
+		byte[] S2 = get_ByteMAC(new String(E2)).getBytes();
+		byte[] S2XORD3 = xor(S2, grupos.get(2));
 
-		return CCTMACODE.toString();
+		byte[] E3 = S2XORD3;
+		byte[] S3 = get_ByteMAC(new String(E3)).getBytes();
+		byte[] S3XORD4 = xor(S3, grupos.get(3));
+
+		byte[] E4 = S3XORD4;
+		byte[] S4 = get_ByteMAC(new String(E4)).getBytes();
+		byte[] S4XORD5 = xor(S4, grupos.get(4));
+
+		byte[] E5 = S4XORD5;
+		byte[] S5 = get_ByteMAC(new String(E5)).getBytes();
+		byte[] S5XORD6 = xor(S5, grupos.get(5));
+
+		byte[] E6 = S5XORD6;
+		byte[] S6 = get_ByteMAC(new String(E6)).getBytes();
+		byte[] S6XORD7 = xor(S6, grupos.get(6));
+
+		byte[] E7 = S6XORD7;
+		String CCTMACODE = get_ByteMAC(new String(E7));
+
+		return CCTMACODE;
 	}
 
 	private byte[] encodeDES_CBC(byte[] key, byte[] data) {
@@ -186,6 +202,22 @@ public class N28MacService {
 		byte[] decrypted = cipher.doFinal(data);
 
 		return decrypted;
+	}
+
+	private static byte[] xor(final byte[] input, final byte[] secret) {
+		final byte[] output = new byte[input.length];
+		if (secret.length == 0) {
+			throw new IllegalArgumentException("empty security key");
+		}
+		int spos = 0;
+		for (int pos = 0; pos < input.length; ++pos) {
+			output[pos] = (byte) (input[pos] ^ secret[spos]);
+			++spos;
+			if (spos >= secret.length) {
+				spos = 0;
+			}
+		}
+		return output;
 	}
 
 }
