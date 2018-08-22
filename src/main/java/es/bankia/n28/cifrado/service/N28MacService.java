@@ -12,7 +12,6 @@ import javax.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.bankia.n28.cifrado.beans.XmlBody;
 import es.bankia.n28.cifrado.model.N28CCTMACODE;
 import es.bankia.n28.cifrado.model.N28MACODE;
 import es.bankia.n28.cifrado.model.N28ModelSettings;
