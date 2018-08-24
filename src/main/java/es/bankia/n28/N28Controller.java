@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class N28Controller {
 
 	// inject via application.properties
-	@Value("${welcome.message:test}")
-	private String message = "Hola";
+	@Value("${inicio.mensaje:test}")
+	private String mensaje = "Hola";
 
 	@RequestMapping("/")
 	public String inicio(Map<String, Object> model) {
-		model.put("mensaje", this.message);
+		model.put("mensaje", this.mensaje);
 		return "inicio";
 	}
 

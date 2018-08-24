@@ -1,4 +1,4 @@
-package es.bankia.n28.controller;
+package es.bankia.n28.cifrado.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -17,7 +17,7 @@ import es.bankia.n28.cifrado.service.N28MacService;
 import es.bankia.n28.cifrado.service.N28TokenService;
 
 @RestController
-@RequestMapping("n28")
+@RequestMapping("n28Cifrado")
 public class N28CifradoController {
 
 	@Autowired

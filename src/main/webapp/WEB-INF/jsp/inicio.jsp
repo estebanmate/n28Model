@@ -34,7 +34,7 @@
 	<div class="container">
 
 		<div class="starter-template">
-			<h1>Incluir plantilla de introducción de Datos de Cuenta</h1>
+			<h1>Incluir plantilla de introduccion de Datos de Cuenta</h1>
 			<h2>Prueba Mensaje: ${mensaje}</h2>
 		</div>
 
