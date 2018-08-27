@@ -29,7 +29,7 @@ public class N28CifradoController {
 	/**
 	 * Encripta un token para ser enviado a la CARM.
 	 *
-	 * @param XMLFormat
+	 * @param TOKEN_REPLY
 	 * @return
 	 * @throws Exception
 	 */
@@ -51,7 +51,7 @@ public class N28CifradoController {
 	/**
 	 * Obtiene un MACODE a partir de los datos de TOKEN_REQUEST para su validación
 	 *
-	 * @param XMLFormat
+	 * @param n28Macode
 	 * @return
 	 * @throws Exception
 	 */
@@ -71,7 +71,7 @@ public class N28CifradoController {
 	/**
 	 * Obtiene un MACODE a partir de los datos de TOKEN_REQUEST para su validación
 	 *
-	 * @param XMLFormat
+	 * @param n28CCTMacode
 	 * @return
 	 * @throws Exception
 	 */
@@ -111,7 +111,7 @@ public class N28CifradoController {
 	/**
 	 * Desencripta un MAC
 	 *
-	 * @param n28TokenRequest
+	 * @param MAC
 	 * @return
 	 * @throws Exception
 	 */
