@@ -1,100 +1,68 @@
 package es.bankia.n28.web.model;
 
 /**
- * API model for the MACODE.
+ * API model for the Account validation response.
  *
  */
 public class ValidationResponse {
 
-	private String titularCuenta;
-	private String idUnico;
-	private String importeIngreso;
-	private String cifContribuyente;
-	private String nombreContribuyente;
-	private String apellido1Contribuyente;
-	private String apellido2Contribuyente;
-	private String oficinaLiquidadora;
-	private String hechoImponible;
+	private String codResultado;
+	private String msgResultado;
 
 	public ValidationResponse() {
 
 	}
 
-	public String getTitularCuenta() {
-		return titularCuenta;
+	public String getCodResultado() {
+		return codResultado;
 	}
 
-	public void setTitularCuenta(String titularCuenta) {
-		this.titularCuenta = titularCuenta;
+	public void setCodResultado(String codResultado) {
+		this.codResultado = codResultado;
 	}
 
-	public String getIdUnico() {
-		return idUnico;
+	public String getMsgResultado() {
+		return msgResultado;
 	}
 
-	public void setIdUnico(String idUnico) {
-		this.idUnico = idUnico;
+	public void setMsgResultado(String msgResultado) {
+		this.msgResultado = msgResultado;
 	}
 
-	public String getImporteIngreso() {
-		return importeIngreso;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codResultado == null) ? 0 : codResultado.hashCode());
+		result = prime * result + ((msgResultado == null) ? 0 : msgResultado.hashCode());
+		return result;
 	}
 
-	public void setImporteIngreso(String importeIngreso) {
-		this.importeIngreso = importeIngreso;
-	}
-
-	public String getCifContribuyente() {
-		return cifContribuyente;
-	}
-
-	public void setCifContribuyente(String cifContribuyente) {
-		this.cifContribuyente = cifContribuyente;
-	}
-
-	public String getNombreContribuyente() {
-		return nombreContribuyente;
-	}
-
-	public void setNombreContribuyente(String nombreContribuyente) {
-		this.nombreContribuyente = nombreContribuyente;
-	}
-
-	public String getApellido1Contribuyente() {
-		return apellido1Contribuyente;
-	}
-
-	public void setApellido1Contribuyente(String apellido1Contribuyente) {
-		this.apellido1Contribuyente = apellido1Contribuyente;
-	}
-
-	public String getApellido2Contribuyente() {
-		return apellido2Contribuyente;
-	}
-
-	public void setApellido2Contribuyente(String apellido2Contribuyente) {
-		this.apellido2Contribuyente = apellido2Contribuyente;
-	}
-
-	public String getOficinaLiquidadora() {
-		return oficinaLiquidadora;
-	}
-
-	public void setOficinaLiquidadora(String oficinaLiquidadora) {
-		this.oficinaLiquidadora = oficinaLiquidadora;
-	}
-
-	public String getHechoImponible() {
-		return hechoImponible;
-	}
-
-	public void setHechoImponible(String hechoImponible) {
-		this.hechoImponible = hechoImponible;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ValidationResponse other = (ValidationResponse) obj;
+		if (codResultado == null) {
+			if (other.codResultado != null)
+				return false;
+		} else if (!codResultado.equals(other.codResultado))
+			return false;
+		if (msgResultado == null) {
+			if (other.msgResultado != null)
+				return false;
+		} else if (!msgResultado.equals(other.msgResultado))
+			return false;
+		return true;
 	}
 
 	@Override
 	public String toString() {
-		return titularCuenta +  idUnico +  importeIngreso +  cifContribuyente + nombreContribuyente + apellido1Contribuyente
-				+ apellido2Contribuyente + oficinaLiquidadora + hechoImponible;
+		return "ValidationResponse [codResultado=" + codResultado + ", msgResultado=" + msgResultado + "]";
 	}
+
 }

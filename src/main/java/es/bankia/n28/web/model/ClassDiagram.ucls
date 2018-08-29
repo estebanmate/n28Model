@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="es.bankia.n28.web.model.N28Proof" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/web/model/N28Proof.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="621" width="180" x="500" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="es.bankia.n28.web.model.SACERequest" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/web/model/SACERequest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="675" width="211" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="es.bankia.n28.web.model.SACEResponse" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/web/model/SACEResponse.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="168" x="292" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="es.bankia.n28.web.model.N28Account" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/web/model/N28Account.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="405" width="138" x="928" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="es.bankia.n28.web.model.ValidationResponse" project="n28Model" 
+    file="/n28Model/src/main/java/es/bankia/n28/web/model/ValidationResponse.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="168" x="720" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
